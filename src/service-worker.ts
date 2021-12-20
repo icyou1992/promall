@@ -78,3 +78,58 @@ self.addEventListener('message', (event) => {
 });
 
 // Any other custom service worker logic can go here.
+
+const staticCache = 'PromoStaticCache';
+const urlsToCache = [
+  '/',
+  '404.html',
+  'index.html',
+  'Icon-192x192.png',
+  'Icon.svg',
+  'maskable_icon_x128.png',
+  'maskable_icon_x192.png',
+  'maskable_icon_x384.png',
+  'maskable_icon_x512.png',
+]
+
+// Install a service worker
+self.addEventListener('install', event => {
+  // Perform install steps
+  event.waitUntil(
+    caches.open(staticCache).then(function(cache) {
+      console.log('Opened cache');
+      return cache.addAll(urlsToCache);
+    })
+  )
+});
+
+// Cache and return requests
+// Network with Cache Fallback
+self.addEventListener('fetch', event => {
+  event.respondWith(
+    fetch(event.request).then(res => {
+      return caches.open(staticCache).then(cache => {
+        cache.put(event.request.url, res.clone());
+        return res;
+      })
+    })
+    // .catch(err => {
+    //   return caches.match(event.request)
+    // })
+  )
+});
+
+// Update a service worker
+self.addEventListener('activate', event => {
+  let cacheWhitelist = ['promo'];
+  event.waitUntil(
+    caches.keys().then(cacheNames => {
+      return Promise.all(
+        // eslint-disable-next-line array-callback-return
+        cacheNames.map(function(cacheName) {
+          if(cacheWhitelist.indexOf(cacheName) === -1) return caches.delete(cacheName);
+        })
+      )
+    })
+  )
+})
