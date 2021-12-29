@@ -112,7 +112,7 @@ const CMapMarker = (props: any) => {
   } as const
 
   const handleClickOutside = (event: any) => {
-    if(!ref.current.contains(event.target)) {
+    if(map.getNode().contains(event.target) && !ref.current.contains(event.target)) {
       setMarkerSize(markerSizeBasic);
       setVisible(false);
     } 

@@ -8,5 +8,7 @@ import ListItem from "./ListItem"
 import Modal from './Modal'
 import Input from "./Input"
 import Text from "./Text"
+import Logo from "./Logo"
+import KaKaoLogin from './login/KakaoLogin'
 
-export { SearchBar, Accordion, Map, MapMarker, Button, Navigation, ListItem, Modal, Input, Text }
+export { SearchBar, Accordion, Map, MapMarker, Button, Navigation, ListItem, Modal, Input, Text, Logo, KaKaoLogin }

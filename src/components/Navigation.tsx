@@ -66,18 +66,16 @@ const Navigation = (props: any) => {
     <nav role="navigation" style={{ ...styles.navigationContainer, ...navigationStyle }}>
       <Nav activeKey={"/home"}>
         <div style={{ ...styles.navigation, }}>
-          {
-            tabs.map((tab: any, index: number) => (
-              <Nav.Item key={`tab-${index}`}>
-                <Nav.Link href={tab.route} >
-                  <div style={{ ...styles.tab, ...tabStyle }}>
-                    <tab.icon size={20} color={white} />
-                    <div style={{ ...styles.tabText, ...tabTextStyle }}>{tab.label}</div>
-                  </div>
-                </Nav.Link>
-              </Nav.Item>
-            ))
-          }
+          {tabs.map((tab: any, index: number) => (
+            <Nav.Item key={`tab-${index}`}>
+              <Nav.Link href={tab.route} >
+                <div style={{ ...styles.tab, ...tabStyle }}>
+                  <tab.icon size={20} color={white} />
+                  <div style={{ ...styles.tabText, ...tabTextStyle }}>{tab.label}</div>
+                </div>
+              </Nav.Link>
+            </Nav.Item>
+          ))}
         </div>
       </Nav>
     </nav>

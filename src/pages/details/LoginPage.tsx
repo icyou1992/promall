@@ -1,13 +1,25 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { Navigate } from 'react-router-dom'
+import { useFirebase } from '../../context/FirebaseContext'
 import { bgColor, dark, lavender } from '../../constants/Color'
-import Logo from '../../assets/logo/Logo2'
-import { Button, Input, Text } from '../../components'
+import { Button, Input, Text, Logo } from '../../components'
 import { IconCircle } from '../../assets/icon'
 import { Link } from 'react-router-dom'
 import { EmptyPage } from '../util'
+import { signInAPI, signInWithOAuthAPI } from '../../util/api'
+import { IsLDevice } from '../../util/responsive'
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 const LoginPage = (props: any) => {
-  // const {} = props;
+  const { Kakao } = window;
+  // const { firebase.auth, user } = props;
+  const firebase = useFirebase();
+  const [IsLScreen, setIsLScreen] = useState(IsLDevice());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const padding = 8;
@@ -15,9 +27,43 @@ const LoginPage = (props: any) => {
   const borderRadius = 8;
   const logoSize = 192;
   const iconSize = 48;
-  const icons = ['kakaotalk', 'naver', 'google', 'facebook', 'apple'];
+  const loginStatement = '로그인';
+  const registerStatement = '회원가입하기';
+  
 
-  const styles ={
+  const kakaoLogin = () => {
+    Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
+    console.log(Kakao.isInitialized())
+    Kakao.Auth.login({
+      scope: 'profile, account_mail, birthday',
+      success: (response: any) => {
+        console.log('qwerawsdfqwerasdf')
+        Kakao.API.request({
+          url: '/v2/user/me',
+          success: (res: any) => {
+            // const kakao_account = res.kakao_account;
+            console.log(res);
+          }
+        })
+      },
+      fail: (err: any) => {
+        console.log(err)
+      }
+    })
+  }
+
+  const icons = [
+    { 
+      name: 'kakaotalk', 
+      function: () => { kakaoLogin() } 
+    }, 
+    { name: 'naver', function: () => {} }, 
+    { name: 'google', function: () => signInWithOAuthAPI(firebase.auth, 'google', IsLScreen) }, 
+    { name: 'facebook', function: () => signInWithOAuthAPI(firebase.auth, 'facebook', IsLScreen) }, 
+    // { name: 'apple', function: () => signInWithOAuthAPI(firebase.auth, 'apple') }
+  ];
+
+  const styles = {
     header: {
       justifyContent: 'space-between',
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
@@ -90,8 +136,10 @@ const LoginPage = (props: any) => {
       flexDirection: 'row',
       justifyContent: 'space-between',
     }
-  } as const
+  } as const 
 
+
+  if(firebase.currentUser) return <Navigate to='/profile'/>
   return (
     <EmptyPage navigation>
       <div style={styles.container}>
@@ -100,7 +148,7 @@ const LoginPage = (props: any) => {
         </div>
 
         <Input 
-          type={'text'} 
+          type={'email'} 
           header={'이메일'}
           value={email}
           onChange={(e: any) => { setEmail(e.currentTarget.value) }}
@@ -113,15 +161,17 @@ const LoginPage = (props: any) => {
         />
         
         <div style={{...styles.rowContentContainer, justifyContent: 'space-between', marginBottom: margin*6 }}>
-          <Link style={styles.register} to={'/register'}>회원가입하기</Link>
-          <Button onClick={() => {}}>로그인</Button>
+          <Link style={styles.register} to={'/register'}>{registerStatement}</Link>
+          <Button onClick={() => { 
+            signInAPI(firebase.auth, email, password)
+          }}>{loginStatement}</Button>
         </div>
 
         <Text textStyle={{ fontWeight: 'bold' }} value={'다른 플랫폼으로 로그인하기'}/>
         <div style={styles.rowContentContainer}>
           {icons.map((icon, index) => (
-            <div key={index} style={styles.icon}>
-              <IconCircle size={iconSize} image={icon} />
+            <div key={index} style={styles.icon} onClick={icon.function}>
+              <IconCircle size={iconSize} image={icon.name} />
             </div>
           ))}
         </div>

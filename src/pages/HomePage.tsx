@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react'
+import { useFirebase } from '../context/FirebaseContext'
 import { dark, darkgray, hotpink, lavender, white } from '../constants/Color'
 import { Accordion, Map, MapMarker, SearchBar } from '../components'
 import { categoryList } from '../constants/Category'
 import { Link } from 'react-router-dom'
 import { BasicPage } from './util'
-import { getPromo } from '../util/api'
+import { getPromotionAPI } from '../util/api'
 import { IsLDevice } from '../util/responsive'
 import { FaHeart } from 'react-icons/fa'
 
+
 const HomePage = (props: any) => {
+  const firebase = useFirebase()
   const [map, setMap] = useState();
   const [loc, setLoc] = useState([37.566815, 126.978674]);
   const [events, setEvents] = useState([]);
@@ -22,7 +25,6 @@ const HomePage = (props: any) => {
   const borderRadius = 8;
   const until = '까지';
   const iconSize = 24;
-
   
   const styles = {
     accordionContainer: {
@@ -191,7 +193,6 @@ const HomePage = (props: any) => {
           <>
             <button aria-label="add" style={styles.add}>
               {'더보기'}
-              {/* <MdAdd size={24} color={lavender}/> */}
             </button>
           </>
         }
@@ -251,9 +252,8 @@ const HomePage = (props: any) => {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(pos => {
-      getPromo().then(res => {
-        setEvents(res.data);
-        // console.log(res.data)
+      getPromotionAPI(firebase.db).then(res => {
+        setEvents(res);
       })
       let coords = pos.coords;
       setLoc([coords.latitude, coords.longitude])
@@ -261,12 +261,11 @@ const HomePage = (props: any) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  useEffect(() => {
-    window.addEventListener('popstate', (event) => {
-      // props.history.pushState(null, null, 'no-back-button');
-      props.history.replaceState('/')
-    });
-  })
+  // useEffect(() => {
+  //   window.addEventListener('popstate', (event) => {
+  //     props.history.replaceState('/')
+  //   });
+  // })
   
   useEffect(() => {
     if(!map) return
@@ -276,7 +275,6 @@ const HomePage = (props: any) => {
       if(status === kakao.maps.services.Status.OK) {
         setLoc([Number(data[0].y), Number(data[0].x)])
         setMapLevel(5)
-        // console.log(data)
       }
     })
     

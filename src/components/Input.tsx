@@ -20,6 +20,7 @@ const Input = (props: any) => {
     header: {
       fontWeight: 'bold',
       marginBottom: margin/2,
+      justifyContent: 'space-between',
     },
     inputContainer: {
       borderBottom: `1px ${color} solid`,

@@ -8,9 +8,10 @@ import { dark, white, lavender, } from '../constants/Color'
 import { SearchBar, ListItem } from '../components'
 import { categoryList } from '../constants/Category'
 import { IsSDevice } from '../util/responsive'
-import { getPromo } from '../util/api';
+import { getPromotionAPI } from '../util/api';
 
 const SearchPage = (props: any) => {
+  const { app, auth, db } = props;
   const useLoc = useLocation();
   const category = new URLSearchParams(useLoc.search).get('category');
   const keyword = new URLSearchParams(useLoc.search).get('keyword');
@@ -128,7 +129,7 @@ const SearchPage = (props: any) => {
                     key={item._id + i2} 
                     to={{ pathname: '/search', search: `?category=${item._id}` }}
                     style={styles.item}
-                    onClick={() => { getPromo({ category: item._id }).then(res => { setEvents(res.data); console.log(res) })}}
+                    onClick={() => { getPromotionAPI(db, { 'category': item._id }).then(res => { setEvents(res); console.log(res) })}}
                   >
                     <item.icon size={iconSize} color={lavender} />
                     <div style={styles.label}>{item.label}</div>

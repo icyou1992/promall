@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
+import { useFirebase } from '../context/FirebaseContext'
 import { EmptyPage } from './util'
-import { getUser } from '../util/api'
+import { signOutAPI } from '../util/api'
 import { IoSettingsSharp } from 'react-icons/io5'
 import { bgColor, dark, lavender } from '../constants/Color'
-import Logo from '../assets/logo/Logo2'
 import { Profile, IconCircle } from '../assets/icon'
-import { Button } from '../components'
+import { Button, Logo } from '../components'
 import Switch from 'react-switch';
 import LoginPage from './details/LoginPage'
 
 const ProfilePage = (props: any) => {
+  // const { auth, user } = props;
+  const firebase = useFirebase();
   const [profile, setProfile]: any = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -111,13 +113,8 @@ const ProfilePage = (props: any) => {
       justifyContent: 'space-between',
     }
   } as const
-
-  useEffect(() => {
-    // setProfile(getUser())
-    setProfile('qwer')
-  }, [])
-
-  if(!profile) return <Navigate to='/login'/>;
+  
+  if(!firebase.currentUser) return <Navigate to='/login'/>;
   return (
     <EmptyPage 
       header={
@@ -167,6 +164,10 @@ const ProfilePage = (props: any) => {
           <button> Login </button>
         </div>
       </div> */}
+
+      <Button whiteStyle onClick={() => { signOutAPI(firebase.auth); console.log(firebase) }}>
+        signout
+      </Button>
     </EmptyPage>
   )
 }
