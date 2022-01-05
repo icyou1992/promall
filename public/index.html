@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/icon-192x192.png" />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/icon-192x192.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="find event near by your place" />
     <!--
@@ -25,10 +25,11 @@
   </head>
   <body>
     <script type="text/javascript" src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+    <script type="text/javascript" src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
     <!-- <script>Kakao.init('%REACT_APP_API_KEY_KAKAO%')</script> -->
     <script 
       type="text/javascript" 
-      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_API_KEY_KAKAO%&libraries=services">
+      src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_API_KEY_KAKAO%&libraries=services,clusterer">
     </script>
     <script 
       defer
@@ -36,15 +37,15 @@
       src="https://static.nid.naver.com/js/naverLogin_implicit-1.0.3.js"
       charset="utf-8">
     </script>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
     <!-- services와 clusterer, drawing 라이브러리 불러오기 -->
-    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=%REACT_APP_API_KEY_KAKAOMAP%&libraries=services,clusterer,drawing"></script> -->
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 
+    <!-- 
     <script>
-      if ('serviceWorker' in navigator) {
+      if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
         // register the service worker
         window.addEventListener('load', function() {
-          navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+          navigator.serviceWorker.register('../src/service-worker.ts').then(function(registration) {
             console.log('ServiceWorker registration successful', registration.scope);
           }, function(err) {
             console.log('ServiceWorker registration failed', err);
@@ -56,6 +57,7 @@
         console.log('Service Worker is not supported by browser.');
       }
     </script>
+    -->
 
     <div id="root"></div>
     <!--

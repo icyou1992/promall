@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+  font-family: 'one_title';
+  src: url('../src/assets/fonts/ONE_Mobile_Title.ttf');
+}
+
+@font-face {
+  font-family: 'one_main_bold';
+  src: url('../src/assets/fonts/ONE_Mobile_Bold.ttf');
+}
+
+@font-face {
+  font-family: 'one_main_regular';
+  src: url('../src/assets/fonts/ONE_Mobile_Regular.ttf');
+}
+
+@font-face {
+  font-family: 'one_main_light';
+  src: url('../src/assets/fonts/ONE_Mobile_Light.ttf');
+}

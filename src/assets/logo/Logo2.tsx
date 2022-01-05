@@ -12,7 +12,7 @@ const Logo = (props: any) => {
       version="1.0"
       xmlns="http://www.w3.org/2000/svg"
       width={size}
-      viewBox="0 150 1980 647"
+      viewBox="0 200 1080 347"
       preserveAspectRatio="xMidYMid meet"
     >
       <g

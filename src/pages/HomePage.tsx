@@ -23,8 +23,9 @@ const HomePage = (props: any) => {
   const margin = 8;
   const padding = 8;
   const borderRadius = 8;
-  const until = '까지';
   const iconSize = 24;
+  const mainText = '주변 할인 행사';
+  const until = '까지';
   
   const styles = {
     accordionContainer: {
@@ -48,6 +49,7 @@ const HomePage = (props: any) => {
       padding: padding + 4,
       borderRadius: borderRadius,
       color: lavender,    
+      fontFamily: 'one_main_light',
     },
     mapTitle: {
       display: 'flex',
@@ -271,13 +273,14 @@ const HomePage = (props: any) => {
     if(!map) return
     const ps = new kakao.maps.services.Places();
 
-    ps.keywordSearch(searchByKeywordInMap, (data, status, _pagination) => {
-      if(status === kakao.maps.services.Status.OK) {
-        setLoc([Number(data[0].y), Number(data[0].x)])
-        setMapLevel(5)
-      }
-    })
-    
+    if(searchByKeywordInMap !== '') {
+      ps.keywordSearch(searchByKeywordInMap, (data, status, _pagination) => {
+        if(status === kakao.maps.services.Status.OK) {
+          setLoc([Number(data[0].y), Number(data[0].x)])
+          setMapLevel(5)
+        }
+      })
+    }
   }, [map, searchByKeywordInMap])
 
   return (
@@ -289,7 +292,7 @@ const HomePage = (props: any) => {
       :
         <div style={styles.container}>
           <div style={styles.mapTitle}>
-            <div style={styles.mapText}>주변 할인 행사</div>
+            <div style={styles.mapText}>{mainText}</div>
             <SearchBar 
               contentContainerStyle={styles.mapSearch}
               inputStyle={styles.inputMap}

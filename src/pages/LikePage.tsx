@@ -1,12 +1,15 @@
 import React from 'react'
 import { EmptyPage } from './util'
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { lavender, white } from '../constants/Color';
 import { FaBell } from 'react-icons/fa';
+import { useFirebase } from '../context/FirebaseContext';
 
 const LikePage = () => {
+  const firebase = useFirebase();
   const margin = 8;
   const padding = 8;
+  const header = '좋아요';
 
   const styles = {
     header: {
@@ -24,11 +27,12 @@ const LikePage = () => {
     },
   } as const 
 
+  if(!firebase.currentUser) return <Navigate to='/login'/>;;
   return (
     <EmptyPage 
       header={
         <>
-          <div style={styles.headerText}>좋아요</div>
+          <div style={styles.headerText}>{header}</div>
           <Link style={styles.bell} to={'/alarm'}>
             <FaBell color={white} size={24} />
           </Link>

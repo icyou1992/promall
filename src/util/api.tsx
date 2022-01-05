@@ -1,10 +1,9 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { signInWithEmailAndPassword, sendEmailVerification, signInWithPopup, signInWithRedirect, createUserWithEmailAndPassword, onAuthStateChanged, signOut, updateProfile, GoogleAuthProvider, FacebookAuthProvider, OAuthProvider } from 'firebase/auth'
 import { addDoc, collection, getDocs, Timestamp, query, where, orderBy, doc, updateDoc } from 'firebase/firestore'
-import { IsLDevice } from './responsive';
 
-const url_promotion = 'https://asia-northeast3-promo-332311.cloudfunctions.net/promotionAPI';
-const url_user = 'https://asia-northeast3-promo-332311.cloudfunctions.net/userAPI ';
+// const url_promotion = 'https://asia-northeast3-promo-332311.cloudfunctions.net/promotionAPI';
+// const url_user = 'https://asia-northeast3-promo-332311.cloudfunctions.net/userAPI ';
 
 const toCustomDate = (date: Timestamp) => {
   return date.toDate().toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' });
@@ -78,10 +77,6 @@ export const updatePromotionAPI = async(db: any, id: any, data: any) => {
 }
 
 
-export const getAuthAPI = async() => {
-  return await axios.get(url_user);
-}
-
 // const signInAPI = async(email: string, password: string) => {
 //   return await axios.get(url_user, { params: { 'signin': true } });
 // }
@@ -102,53 +97,53 @@ export const signInAPI = async(auth: any, email: string, password: string) => {
   }
 }
 
-const getSignMode = (auth: any, authProvider: any, getScreen: boolean) => { 
+const getSignMode = async (auth: any, authProvider: any, getScreen: boolean) => { 
   return getScreen ? 
   (
-    signInWithPopup(auth, authProvider)
+    await signInWithPopup(auth, authProvider)
   ) : (
-    signInWithRedirect(auth, authProvider)
+    await signInWithRedirect(auth, authProvider)
   ) 
 }
 
 export const signInWithOAuthAPI = async(auth: any, provider: string, getScreen: boolean) => {
-  let authProvider;
   switch(provider) {
     case 'google':
-      authProvider = new GoogleAuthProvider();
-      await getSignMode(auth, authProvider, getScreen).then((res: any) => {
-        const credential = GoogleAuthProvider.credentialFromResult(res)
-        const token = credential?.accessToken
-        const user = res.user;
-
-        return user
-      })
-      .catch(err => { console.log(err) })
+      const googleProvider = new GoogleAuthProvider();
+      // await getSignMode(auth, googleProvider, getScreen).then((res: any) => {
+      //   // const credential = GoogleAuthProvider.credentialFromResult(res)
+      //   // const token = credential?.accessToken
+      //   const user = res.user;
+      //   console.log(res)
+      //   return user
+      // })
+      // .catch(err => { console.log(err) })
+      // break;
+      const googleResult = await getSignMode(auth, googleProvider, getScreen)
+      const googleUser = googleResult.user
+      console.log(googleUser)
       break;
 
     case 'facebook':
-      authProvider = new FacebookAuthProvider();
-      await getSignMode(auth, authProvider, getScreen).then((res: any) => {
-        const credential = FacebookAuthProvider.credentialFromResult(res)
-        const token = credential?.accessToken
-        const user = res.user;
-
-        return user
-      })
-      .catch(err => { console.log(err) })
-      break;
-      
-    case 'apple':
-      authProvider = new OAuthProvider('apple.com');
-      // authProvider.addScope('email');
-      // authProvider.addScope('name');
-      
-      // authProvider.setCustomParameters({
-      //   locale: 'fr'
+      const facebookProvider = new FacebookAuthProvider();
+      // await getSignMode(auth, facebookProvider, getScreen).then((res: any) => {
+      //   // const credential = FacebookAuthProvider.credentialFromResult(res)
+      //   // const token = credential?.accessToken
+      //   const user = res.user;
+      //   console.log(res)
+      //   return user
       // })
-      await getSignMode(auth, authProvider, getScreen).then((res: any) => {
-        const credential = OAuthProvider.credentialFromResult(res)
-        const token = credential?.accessToken
+      // .catch(err => { console.log(err) })
+      const facebookResult = await getSignMode(auth, facebookProvider, getScreen)
+      const facebookUser = facebookResult.user
+      console.log(facebookUser)
+      break;
+    case 'apple':
+      const appleProvider = new OAuthProvider('apple.com');
+
+      await getSignMode(auth, appleProvider, getScreen).then((res: any) => {
+        // const credential = OAuthProvider.credentialFromResult(res)
+        // const token = credential?.accessToken
         const user = res.user;
 
         return user

@@ -7,7 +7,7 @@ import { IoSettingsSharp } from 'react-icons/io5'
 import { bgColor, dark, lavender } from '../constants/Color'
 import { Profile, IconCircle } from '../assets/icon'
 import { Button, Logo } from '../components'
-import Switch from 'react-switch';
+// import Switch from 'react-switch';
 import LoginPage from './details/LoginPage'
 
 const ProfilePage = (props: any) => {
@@ -25,6 +25,7 @@ const ProfilePage = (props: any) => {
   const iconSize = 48;
   const icons = ['kakaotalk', 'naver', 'google', 'facebook', 'apple'];
   const margin = 8;
+  const header = '내 정보';
 
   const styles ={  
     header: {
@@ -119,7 +120,7 @@ const ProfilePage = (props: any) => {
     <EmptyPage 
       header={
         <>
-          <div style={styles.headerText}>내 정보</div>
+          <div style={styles.headerText}>{header}</div>
           <Link style={styles.setting} to={'/setting'}>
             <IoSettingsSharp color={lavender} size={24} />
           </Link>

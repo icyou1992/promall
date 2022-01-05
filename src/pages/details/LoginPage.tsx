@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useFirebase } from '../../context/FirebaseContext'
 import { bgColor, dark, lavender } from '../../constants/Color'
@@ -12,11 +12,12 @@ import { IsLDevice } from '../../util/responsive'
 declare global {
   interface Window {
     Kakao: any;
+    naver: any;
   }
 }
 
 const LoginPage = (props: any) => {
-  const { Kakao } = window;
+  const { Kakao, naver } = window;
   // const { firebase.auth, user } = props;
   const firebase = useFirebase();
   const [IsLScreen, setIsLScreen] = useState(IsLDevice());
@@ -29,35 +30,42 @@ const LoginPage = (props: any) => {
   const iconSize = 48;
   const loginStatement = '로그인';
   const registerStatement = '회원가입하기';
+  const naverRef: any = useRef();
   
 
   const kakaoLogin = () => {
-    Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
-    console.log(Kakao.isInitialized())
-    Kakao.Auth.login({
-      scope: 'profile, account_mail, birthday',
-      success: (response: any) => {
-        console.log('qwerawsdfqwerasdf')
-        Kakao.API.request({
-          url: '/v2/user/me',
-          success: (res: any) => {
-            // const kakao_account = res.kakao_account;
-            console.log(res);
-          }
-        })
-      },
-      fail: (err: any) => {
-        console.log(err)
-      }
-    })
+    try {
+      // Kakao.Auth.authorize({ redirectUri: 'http://localhost:3000/' })
+      Kakao.Auth.loginForm({
+        success: (authObj: any) => {
+          Kakao.API.request({
+            url: '/v2/user/me',
+            success: (res: any) => {
+              console.log(res);
+  
+              return res.user
+            },
+            fail: (err: any) => { throw err }
+          }).then((res: any) => res.json())
+        },
+        fail: (err: any) => {
+          console.log(err)
+          return err
+        }
+      })
+    } catch(err) {
+      console.log(err)
+    }
   }
-
+  
+  const naverClick = () => {
+    console.log(naverRef.current)
+    naverRef.current.children[0].click();
+  }
+  
   const icons = [
-    { 
-      name: 'kakaotalk', 
-      function: () => { kakaoLogin() } 
-    }, 
-    { name: 'naver', function: () => {} }, 
+    { name: 'kakaotalk', function: () => { kakaoLogin() } }, 
+    // { name: 'naver', function: () => {  } }, 
     { name: 'google', function: () => signInWithOAuthAPI(firebase.auth, 'google', IsLScreen) }, 
     { name: 'facebook', function: () => signInWithOAuthAPI(firebase.auth, 'facebook', IsLScreen) }, 
     // { name: 'apple', function: () => signInWithOAuthAPI(firebase.auth, 'apple') }
@@ -82,6 +90,7 @@ const LoginPage = (props: any) => {
       padding: padding*4,
       borderRadius: borderRadius,
       color: lavender,    
+      fontFamily: 'one_main_light',
     },
     logoContainer: {
       display: 'flex',
@@ -108,7 +117,7 @@ const LoginPage = (props: any) => {
       margin: margin,
     },
     register: { 
-      borderBottom: `1px ${lavender} solid`, 
+      borderBottom: `1px ${lavender} solid`,
       fontSize: '0.8rem', 
       alignSelf: 'flex-start', 
       color: lavender, 
@@ -138,6 +147,25 @@ const LoginPage = (props: any) => {
     }
   } as const 
 
+  useEffect(() => {
+    if(!Kakao.isInitialized()) Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
+    
+    const naverLogin = () => {
+      const callbackUrl = 'http://localhost:3000/profile'
+  
+      const login = new naver.LoginWithNaverId({
+        clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+        callbackUrl: callbackUrl,
+        isPopup: true,
+        callbackHandle: true,
+        loginButton: { type: 1, height: iconSize },
+      })
+      login.init();
+      login.logout();
+    } 
+    naverLogin();
+    // return naverLogin();
+  }, [Kakao, naver])
 
   if(firebase.currentUser) return <Navigate to='/profile'/>
   return (
@@ -153,6 +181,7 @@ const LoginPage = (props: any) => {
           value={email}
           onChange={(e: any) => { setEmail(e.currentTarget.value) }}
         />
+        <br/>
         <Input 
           type={'password'} 
           header={'비밀번호'}
@@ -160,6 +189,7 @@ const LoginPage = (props: any) => {
           onChange={(e: any) => { setPassword(e.currentTarget.value) }}
         />
         
+        <br/>
         <div style={{...styles.rowContentContainer, justifyContent: 'space-between', marginBottom: margin*6 }}>
           <Link style={styles.register} to={'/register'}>{registerStatement}</Link>
           <Button onClick={() => { 
@@ -169,8 +199,13 @@ const LoginPage = (props: any) => {
 
         <Text textStyle={{ fontWeight: 'bold' }} value={'다른 플랫폼으로 로그인하기'}/>
         <div style={styles.rowContentContainer}>
+          <div ref={naverRef} id='naverIdLogin' style={{ display: 'none' }}></div>
+          <div onClick={naverClick}>
+            <IconCircle size={iconSize} image={'naver'} />
+          </div>
+
           {icons.map((icon, index) => (
-            <div key={index} style={styles.icon} onClick={icon.function}>
+            <div key={index} id={icon.name} style={styles.icon} onClick={icon.function}>
               <IconCircle size={iconSize} image={icon.name} />
             </div>
           ))}

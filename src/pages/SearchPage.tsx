@@ -9,9 +9,10 @@ import { SearchBar, ListItem } from '../components'
 import { categoryList } from '../constants/Category'
 import { IsSDevice } from '../util/responsive'
 import { getPromotionAPI } from '../util/api';
+import { useFirebase } from '../context/FirebaseContext'
 
 const SearchPage = (props: any) => {
-  const { app, auth, db } = props;
+  const firebase = useFirebase();
   const useLoc = useLocation();
   const category = new URLSearchParams(useLoc.search).get('category');
   const keyword = new URLSearchParams(useLoc.search).get('keyword');
@@ -26,6 +27,7 @@ const SearchPage = (props: any) => {
   const itemSize = 64;
   const labelMargin = 4;
   const paddingTop = 4;
+  const mainText = '카테고리';
   
   const styles = {
     container: {
@@ -36,6 +38,7 @@ const SearchPage = (props: any) => {
       padding: padding,
       borderRadius: borderRadius,
       color: lavender,    
+      fontFamily: 'one_main_light',
     },
     searchContainer: {
       display: 'flex',
@@ -120,7 +123,7 @@ const SearchPage = (props: any) => {
       <div style={styles.container}>
         {(!category && !keyword) ?
         <>
-          <div style={styles.categoryText}>{'범주'}</div>
+          <div style={styles.categoryText}>{mainText}</div>
           <div style={styles.category}>
             {sliced && sliced.map((categorySet: any, i1: number) => (
               <div key={`category_${i1}`} style={styles.categoryRow}>
@@ -129,7 +132,7 @@ const SearchPage = (props: any) => {
                     key={item._id + i2} 
                     to={{ pathname: '/search', search: `?category=${item._id}` }}
                     style={styles.item}
-                    onClick={() => { getPromotionAPI(db, { 'category': item._id }).then(res => { setEvents(res); console.log(res) })}}
+                    onClick={() => { getPromotionAPI(firebase.db, { 'category': item._id }).then(res => { setEvents(res); console.log(res) })}}
                   >
                     <item.icon size={iconSize} color={lavender} />
                     <div style={styles.label}>{item.label}</div>
@@ -154,7 +157,7 @@ const SearchPage = (props: any) => {
                 <hr/>
               </>
             :
-            category && 
+            (category && 
               <>
                 {events.map((event: any, index: number) => (
                   <div key={index}>
@@ -163,7 +166,7 @@ const SearchPage = (props: any) => {
                   </div>
                 ))}
               </>
-            }
+            )}
           </div>
         </>
         }

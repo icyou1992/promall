@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
@@ -9,29 +9,26 @@ import SettingPage from './pages/SettingPage';
 import LoginPage from './pages/details/LoginPage';
 import RegisterPage from './pages/details/RegisterPage';
 
-import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore } from '@firebase/firestore'
-
 import { FirebaseProvider } from './context/FirebaseContext';
 
 const App = (props: any) => {
-  // const app = initializeApp({
-  //   apiKey: process.env.REACT_APP_API_KEY_FIREBASE,
-  //   authDomain: process.env.REACT_APP_AUTH_DOMAIN_FIREBASE,
-  //   projectId: process.env.REACT_APP_PROJECT_ID_FIREBASE,
-  //   storageBucket: process.env.REACT_APP_STORAGE_BUCKET_FIREBASE,
-  //   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID_FIREBASE,
-  //   appId: process.env.REACT_APP_APP_ID_FIREBASE,
-  //   measurementId: process.env.REACT_APP_MESUREMENT_ID_FIREBASE,
-  // });
-  // const [auth, setAuth] = useState(getAuth(app));
-  // const [db, setDb] = useState(getFirestore(app));
-  // const [user, setUser]: any = useState();
 
-  // onAuthStateChanged(auth, (user => {
-  //   if(user) setUser(user)
-  // }))
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+      // register the service worker
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('../src/service-worker.ts').then(function(registration) {
+          console.log('ServiceWorker registration successful', registration.scope);
+        }, function(err) {
+          console.log('ServiceWorker registration failed', err);
+        }).catch(function(err) {
+          console.log(err);
+        });
+      });
+    } else {
+      console.log('Service Worker is not supported by browser or Current Environment is development.');
+    }  
+  }, [])
 
   return (
     <Router>
