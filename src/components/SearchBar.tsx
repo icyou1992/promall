@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useEnv } from '../context/EnvContext';
 import { FaSearch } from 'react-icons/fa';
-import { bgColor, lavender } from '../constants/Color'
 
 const SearchBar = (props: any) => {
   const {
@@ -15,6 +15,7 @@ const SearchBar = (props: any) => {
     onClick,
     link,
   } = props
+  const env = useEnv();
   const padding = 4;
   const margin = 8;
 
@@ -30,18 +31,18 @@ const SearchBar = (props: any) => {
       flexDirection: 'row',
       alignItems: 'center', 
       justifyContent: 'space-between', 
-      borderBottom: `2px ${lavender} solid`, 
-      backgroundColor: bgColor,
+      borderBottom: `2px ${env.fontColor} solid`, 
+      backgroundColor: env.bgColor,
       paddingTop: padding,
       paddingBottom: padding,
     },
     input: { 
       width: '100%',
-      backgroundColor: backgroundColor ? backgroundColor : bgColor,
+      backgroundColor: backgroundColor ? backgroundColor : env.bgColor,
       fontSize: '1rem', 
       border: '0px', 
       outline: 'none',
-      color: lavender,
+      color: env.fontColor,
     },
     search: { marginLeft: margin, marginRight: margin, },
   } as const
@@ -60,10 +61,10 @@ const SearchBar = (props: any) => {
             size={1}
           />
           {link && <Link aria-label="SearchLink" to={{ pathname: "/search", search: `?keyword=${value}` }}>
-            <FaSearch role='button' style={styles.search} size={iconSize} color={lavender} />
+            <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} />
           </Link>}
           {onClick &&
-            <FaSearch role='button' style={styles.search} size={iconSize} color={lavender} onClick={onClick}/>
+            <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} onClick={onClick}/>
           }          
         </div>
       </div>

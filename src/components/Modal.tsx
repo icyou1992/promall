@@ -1,5 +1,6 @@
 import React from 'react'
-import { bgColor } from '../constants/Color';
+import { theme } from '../constants/Color';
+import { useEnv } from '../context/EnvContext';
 
 const CModal = (props: any) => {
   const {
@@ -8,6 +9,7 @@ const CModal = (props: any) => {
     onClick,
     children
   } = props;
+  const env = useEnv();
   // const padding = 8;
 
   const styles = {
@@ -17,15 +19,13 @@ const CModal = (props: any) => {
       bottom: show ? '0' : '-150vh',
       width: (mode === 'full') ? '100vw' : 'auto',
       height: (mode === 'full') ? '100vh' : (mode === 'half') ? '50vh' : 'auto',
-      backgroundColor: 'transparent',
-      boxShadow: `5 5 5 5 ${bgColor}`,
       transition: 'bottom .3s ease-out',
       zIndex: 30,
     },
     modalBody: {
       width: (mode === 'full') ? '100vw' : 'auto',
       height: (mode === 'full') ? '100vh' : (mode === 'half') ? '50vh' : 'auto',
-      background: bgColor,
+      background: env.bgColor,
       // padding: padding,
       overflowY: 'auto',
     }

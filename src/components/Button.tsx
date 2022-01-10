@@ -1,12 +1,13 @@
 import React from 'react'
-import { bgColor, lavender } from '../constants/Color';
+import { theme, lavender } from '../constants/Color';
 
 const Button = (props: any) => {
   const {
     onClick,
+    color,
+    bgColor,
     buttonStyle,
     children,
-    whiteStyle,
   } = props;
   const borderRadius = 8;
   const padding = 8;
@@ -17,8 +18,8 @@ const Button = (props: any) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: whiteStyle ? lavender : bgColor,
-      color: whiteStyle ? bgColor : lavender,
+      backgroundColor: bgColor,
+      color: color,
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
       width: 'fit-content',
       border: 0,

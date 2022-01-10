@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
 import { useFirebase } from '../context/FirebaseContext'
+import { useEnv } from '../context/EnvContext'
 import { EmptyPage } from './util'
 import { signOutAPI } from '../util/api'
 import { IoSettingsSharp } from 'react-icons/io5'
-import { bgColor, dark, lavender } from '../constants/Color'
+import { dark, gray, lavender, white } from '../constants/Color'
 import { Profile, IconCircle } from '../assets/icon'
 import { Button, Logo } from '../components'
 // import Switch from 'react-switch';
@@ -13,6 +14,7 @@ import LoginPage from './details/LoginPage'
 const ProfilePage = (props: any) => {
   // const { auth, user } = props;
   const firebase = useFirebase();
+  const env = useEnv();
   const [profile, setProfile]: any = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -92,7 +94,7 @@ const ProfilePage = (props: any) => {
     register: { borderBottom: `1px ${lavender} solid`, fontSize: '0.8rem', alignSelf: 'flex-start', },
     button: {
       borderRadius: borderRadius,
-      backgroundColor: bgColor,
+      backgroundColor: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray),
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
     },
     profileContainer: {
@@ -137,11 +139,11 @@ const ProfilePage = (props: any) => {
             <div>이메일</div>
           </div>
         </div>
-        <div style={{ height: 2, backgroundColor: bgColor, margin: -8, marginTop: 0, marginBottom: 12, }} />
+        <div style={{ height: 2, backgroundColor: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray), margin: -8, marginTop: 0, marginBottom: 12, }} />
         <div>전화번호</div>
         <div>전화번호 인증</div>
 
-        <div style={{ height: 2, backgroundColor: bgColor, margin: -8, marginTop: 12, marginBottom: 12, }} />
+        <div style={{ height: 2, backgroundColor: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray), margin: -8, marginTop: 12, marginBottom: 12, }} />
         <div style={styles.marketingContainer}>
 
         <div>푸시알림 동의</div>

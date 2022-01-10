@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { bgColor, lavender } from '../../constants/Color'
+import { useEnv } from '../../context/EnvContext'
 import { Navigation, Logo } from '../../components'
 import { Link } from 'react-router-dom'
 import { FaBell, FaSearch, FaUser } from 'react-icons/fa'
@@ -15,6 +15,7 @@ const BasicPage = (props: any) => {
     navigation,
     iconStyle
   } = props;
+  const env = useEnv();
   const margin = 8;
   const padding = 8;
   const logoSize = 128;
@@ -24,12 +25,11 @@ const BasicPage = (props: any) => {
     container: {
       width: '100vw',
       height: '100vh',
-      backgroundColor: bgColor,
+      backgroundColor: env.bgColor,
     },
     header: {
       display: 'flex',
       flex: 1,
-      // background: `linear-gradient(to bottom, #222222 0%, ${bgColor} 100%)`,
       backgroundColor: 'transparent',
       height: 'auto',
       justifyContent: 'space-between',
@@ -58,22 +58,22 @@ const BasicPage = (props: any) => {
         <div style={{ ...styles.header, ...headerStyle }}>
           {logo && <Link to={'/'} aria-label="Logo">
             <div role='button' aria-label="Logo" style={styles.logoContainer}>
-              <Logo size={logoSize} color={lavender}/>
+              <Logo size={logoSize} color={env.fontColor}/>
             </div>
           </Link>}
           {header}   
           <div style={styles.shortcutContainer}>
             <LDevice>
               <Link to={'/search'} aria-label="Search">
-                <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={lavender} />
+                <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
               </Link>
             </LDevice>
             <Link to={'/alarm'} aria-label="Alarm">
-              <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={lavender} />
+              <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
             </Link>
             <LDevice>
               <Link to={'/profile'} aria-label="Profile">
-                <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={lavender} />
+                <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
               </Link>
             </LDevice>
           </div>               

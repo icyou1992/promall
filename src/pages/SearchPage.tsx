@@ -4,15 +4,17 @@ import { useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
 import { FaBell } from 'react-icons/fa'
 import { EmptyPage } from './util'
-import { dark, white, lavender, } from '../constants/Color'
+import { useEnv } from '../context/EnvContext'
 import { SearchBar, ListItem } from '../components'
 import { categoryList } from '../constants/Category'
 import { IsSDevice } from '../util/responsive'
 import { getPromotionAPI } from '../util/api';
 import { useFirebase } from '../context/FirebaseContext'
+import { theme } from '../constants/Color'
 
 const SearchPage = (props: any) => {
   const firebase = useFirebase();
+  const env = useEnv();
   const useLoc = useLocation();
   const category = new URLSearchParams(useLoc.search).get('category');
   const keyword = new URLSearchParams(useLoc.search).get('keyword');
@@ -34,10 +36,10 @@ const SearchPage = (props: any) => {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: dark,
+      backgroundColor: theme,
       padding: padding,
       borderRadius: borderRadius,
-      color: lavender,    
+      color: env.fontColor,    
       fontFamily: 'one_main_light',
     },
     searchContainer: {
@@ -53,7 +55,7 @@ const SearchPage = (props: any) => {
       fontSize: '1rem',
       fontWeight: 'bold',
       letterSpacing: '0.2rem',
-      color: lavender,
+      color: env.fontColor,
     },
     category: {
       display: 'flex',
@@ -79,7 +81,7 @@ const SearchPage = (props: any) => {
     }, 
     label: {
       marginTop: labelMargin,
-      color: lavender,
+      color: env.fontColor,
       fontSize: '0.5rem',
       textAlign: 'center',
       wordBreak: 'keep-all',
@@ -114,7 +116,7 @@ const SearchPage = (props: any) => {
             <SearchBar value={searchByKeyword} onChange={(e: any) => setSearchByKeyword(e.currentTarget.value)} link/>
           </div>
           <Link style={styles.bell} to={'/alarm'}>
-            <FaBell color={white} size={24} />
+            <FaBell color={env.fontColor} size={24} />
           </Link>
         </>
       }
@@ -134,7 +136,7 @@ const SearchPage = (props: any) => {
                     style={styles.item}
                     onClick={() => { getPromotionAPI(firebase.db, { 'category': item._id }).then(res => { setEvents(res); console.log(res) })}}
                   >
-                    <item.icon size={iconSize} color={lavender} />
+                    <item.icon size={iconSize} color={env.fontColor} />
                     <div style={styles.label}>{item.label}</div>
                   </Link>
                 ))}

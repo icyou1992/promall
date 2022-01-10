@@ -9,11 +9,13 @@ const CMap = (props: any) => {
     children,
     mapLevel = 4,
   } = props;
-  
+  const borderRadius = 4;
+
   const styles = {
     map: {
       margin: '4px',
       height: '100%',
+      borderRadius: borderRadius,
     },
     
   } as const

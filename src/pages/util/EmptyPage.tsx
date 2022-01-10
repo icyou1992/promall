@@ -1,6 +1,6 @@
 import React from 'react'
+import { useEnv } from '../../context/EnvContext';
 import { Link } from 'react-router-dom';
-import { bgColor, lavender } from '../../constants/Color';
 import { MDevice } from '../../util/responsive';
 import { Navigation } from '../../components';
 import { IoChevronBackOutline } from 'react-icons/io5'
@@ -9,7 +9,6 @@ const EmptyPage = (props: any) => {
   const {
     back,
     backSize = 32,
-    backColor = lavender,
     backLink = '/',
     header,
     headerStyle,
@@ -17,19 +16,20 @@ const EmptyPage = (props: any) => {
     navigation,
   } = props;
   // const margin = 8;
+  const env = useEnv();
   const padding = 8;
 
   const styles = {
     container: {
       width: '100vw',
       height: '100vh',
-      backgroundColor: bgColor,
+      backgroundColor: env.bgColor,
     },
     header: {
       display: 'flex',
       flex: 1,
-      // background: `linear-gradient(to bottom, #222222 0%, ${bgColor} 100%)`,
-      backgroundColor: bgColor,
+      // background: `linear-gradient(to bottom, #222222 0%, ${env.bgColor} 100%)`,
+      backgroundColor: env.bgColor,
       height: 'auto',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -41,7 +41,7 @@ const EmptyPage = (props: any) => {
   return (
     <div style={styles.container}>
       <div style={{ ...styles.header, ...headerStyle }}>
-        {back && <Link to={backLink}><IoChevronBackOutline size={backSize} color={backColor}/></Link>}
+        {back && <Link to={backLink}><IoChevronBackOutline size={backSize} color={env.fontColor}/></Link>}
         {header}
       </div>
       {children}

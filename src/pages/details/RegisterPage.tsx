@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { useFirebase } from '../../context/FirebaseContext';
 import { Input, Text, Button } from '../../components';
-import { bgColor, dark, lavender } from '../../constants/Color';
+import { dark, gray, lavender, white } from '../../constants/Color';
 import { EmptyPage } from '../util';
 import { sendEmailVerificationAPI, signUpAPI } from '../../util/api';
 import { Navigate } from 'react-router';
+import { useEnv } from '../../context/EnvContext';
 
 const RegisterPage = (props: any) => {
   // const {} = props;
   const firebase = useFirebase();
+  const env = useEnv();
   const [registered, setRegistered] = useState(false);
   const [email, setEmail] = useState('');
   const [verified, setVerified] = useState(false);
@@ -53,14 +55,14 @@ const RegisterPage = (props: any) => {
     line: {
       flex: 1,
       height: 2, 
-      backgroundColor: bgColor, 
+      backgroundColor: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray), 
       // margin: -8, 
       marginTop: 4, 
       marginBottom: 12, 
     },
     entry: {
       fontSize: '0.8rem',
-      color: bgColor,
+      color: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray),
       marginLeft: margin,
       // alignSelf: 'flex-end',
     },

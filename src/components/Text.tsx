@@ -1,16 +1,16 @@
 import React from 'react'
-import { lavender } from '../constants/Color';
 
 const Text = (props: any) => {
   const {
     value,
+    color,
     textStyle,
   } = props;
 
   const styles = {
     text: {
       fontSize: '1rem',
-      color: lavender,
+      color: color,
     }
   }
   return (

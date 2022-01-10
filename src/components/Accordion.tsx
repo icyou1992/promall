@@ -1,6 +1,7 @@
 import { Accordion, Card, useAccordionButton } from 'react-bootstrap'
 import ArrowDown from '../assets/icon/ArrowDown';
-import { dark, bgColor, lavender } from '../constants/Color';
+import { dark, white, gray } from '../constants/Color';
+import { useEnv } from '../context/EnvContext';
 
 const CAccordion = (props: any) => {
   const {
@@ -13,12 +14,13 @@ const CAccordion = (props: any) => {
     arrowSize,
     arrowColor,
   } = props;
+  const env = useEnv();
   const margin = 16;
   const paddingTop = 12;
 
   const styles = {
     card: {
-      backgroundColor: bgColor,
+      backgroundColor: env.bgColor,
       marginLeft: margin,
       marginRight: margin,
     },
@@ -43,7 +45,7 @@ const CAccordion = (props: any) => {
       return (
         <div role="button" style={{...styles.header, ...buttonStyle}} onClick={decoratedOnClick}>
           {children}
-          <ArrowDown width={arrowSize ? arrowSize : '16'} color={arrowColor ? arrowColor : lavender} />
+          <ArrowDown width={arrowSize ? arrowSize : '16'} color={arrowColor ? arrowColor : white} />
         </div>
       )
   }

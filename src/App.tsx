@@ -4,12 +4,14 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
-import LikePage from './pages/LikePage';
 import SettingPage from './pages/SettingPage';
 import LoginPage from './pages/details/LoginPage';
 import RegisterPage from './pages/details/RegisterPage';
+import LikePage from './pages/details/LikePage';
 
 import { FirebaseProvider } from './context/FirebaseContext';
+import { AlarmPage } from './pages/details';
+import { EnvProvider } from './context/EnvContext';
 
 const App = (props: any) => {
 
@@ -34,6 +36,7 @@ const App = (props: any) => {
     <Router>
       <div className='app'>
         <FirebaseProvider>
+        <EnvProvider>
         <Routes>
           <Route path='/' element={<HomePage />}/>
           <Route path='/search' element={<SearchPage {...props} />}/>
@@ -43,8 +46,10 @@ const App = (props: any) => {
           <Route path='/profile' element={<ProfilePage {...props} />}/>
           <Route path='/login' element={<LoginPage {...props} />}/>
           <Route path='/register' element={<RegisterPage {...props} />}/>
+          <Route path='/alarm' element={<AlarmPage {...props} />}/>
           <Route path='/setting' element={<SettingPage {...props} />}/>
         </Routes>
+        </EnvProvider>
         </FirebaseProvider>
       </div>
     </Router>

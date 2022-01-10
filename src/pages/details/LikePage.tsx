@@ -1,9 +1,9 @@
 import React from 'react'
-import { EmptyPage } from './util'
+import { EmptyPage } from '../util'
 import { Link, Navigate } from 'react-router-dom';
-import { lavender, white } from '../constants/Color';
+import { lavender, white } from '../../constants/Color';
 import { FaBell } from 'react-icons/fa';
-import { useFirebase } from '../context/FirebaseContext';
+import { useFirebase } from '../../context/FirebaseContext';
 
 const LikePage = () => {
   const firebase = useFirebase();

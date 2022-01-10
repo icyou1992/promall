@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useFirebase } from '../context/FirebaseContext'
-import { dark, darkgray, hotpink, lavender, white } from '../constants/Color'
+import { useEnv } from '../context/EnvContext'
+import { black, dark, darkgray, gray, hotpink, lavender, theme, white } from '../constants/Color'
 import { Accordion, Map, MapMarker, SearchBar } from '../components'
 import { categoryList } from '../constants/Category'
 import { Link } from 'react-router-dom'
@@ -8,10 +9,12 @@ import { BasicPage } from './util'
 import { getPromotionAPI } from '../util/api'
 import { IsLDevice } from '../util/responsive'
 import { FaHeart } from 'react-icons/fa'
+import { IoChevronForwardOutline } from 'react-icons/io5'
 
 
 const HomePage = (props: any) => {
   const firebase = useFirebase()
+  const env = useEnv()
   const [map, setMap] = useState();
   const [loc, setLoc] = useState([37.566815, 126.978674]);
   const [events, setEvents] = useState([]);
@@ -29,12 +32,10 @@ const HomePage = (props: any) => {
   
   const styles = {
     accordionContainer: {
-      // display: 'block'
       marginTop: -margin,
     },
     categoryText: {
       textDecoration: 'none',
-      color: lavender,
     },
     map: {
       width: '100%',
@@ -44,11 +45,10 @@ const HomePage = (props: any) => {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: dark,
+      backgroundColor: theme,
       marginTop: -margin*3,
       padding: padding + 4,
       borderRadius: borderRadius,
-      color: lavender,    
       fontFamily: 'one_main_light',
     },
     mapTitle: {
@@ -58,12 +58,12 @@ const HomePage = (props: any) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       marginTop: -margin/2,
+      fontWeight: 'bold',
     },
     mapText: {
-      color: lavender,
       marginBottom: margin,
-      fontSize: '1rem',
       fontWeight: 'bold',
+      fontSize: '1rem',
       letterSpacing: '0.2rem',
       marginRight: margin*4,
     },
@@ -72,7 +72,6 @@ const HomePage = (props: any) => {
       flex: 1,
       flexDirection: 'row',
       alignItems: 'center', 
-      borderBottom: `2px ${lavender} solid`, 
       backgroundColor: 'transparent',
       paddingBottom: padding/2,
     },
@@ -83,23 +82,40 @@ const HomePage = (props: any) => {
       fontSize: '0.8rem', 
       border: '0px', 
       outline: 'none',
-      color: lavender,
     },
     titleContainer: {
       display: 'flex',
       width: '100%',
-      backgroundColor: dark,
+      backgroundColor: theme,
       padding: padding,
-      borderBottom: `1px solid ${white}`,
       flexDirection: 'row',
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    briefContainer: {
+      display: 'flex',
+      flexDirection: 'column',
+      width: '100%',
+      backgroundColor: env.bgColor,
+      padding: padding,
+      justifyContent: 'space-between',
+    },
+    briefTitle: {
+      fontSize: '0.8rem',
+      fontWeight: 'bold',
+      letterSpacing: '0.1rem',
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+      paddingBottom: padding/2,
+    },
+    briefContent: {
+
+    },
+    briefDate: { fontSize: '0.7rem' },
     title: {
       width: '100%',
-      fontSize: '1rem',
+      fontSize: '0.8rem',
       fontWeight: 'bold',
-      color: lavender,
       letterSpacing: '0.1rem',
       overflow: 'hidden',
       textOverflow: 'ellipsis',
@@ -116,23 +132,19 @@ const HomePage = (props: any) => {
     brand: {
       fontSize: '0.8rem',
       alignSelf: 'flex-start',
-      color: lavender
     },
     rowContainer: {
       display: 'flex',
       width: '100%',
       flexDirection: 'row',
-      justifyContent: 'space-between'
     },
     expirationDate: {
       fontSize: '0.8rem',
       alignSelf: 'flex-start',
-      color: lavender
     },
     until: {
       fontSize: '0.8rem',
       alignSelf: 'flex-end',
-      color: lavender
     },
     description: {
       flex: 1,
@@ -141,19 +153,16 @@ const HomePage = (props: any) => {
       fontSize: '1rem',
       width: '100%',
       border: 0,
-      color: lavender,
     },
     location: {
       fontSize: '0.8rem',
       width: '100%',
-      color: lavender
     },
     add: {
       width: '100%',
       borderTop: `1px solid ${white}`,
       padding: padding,
-      backgroundColor: darkgray,
-      color: lavender,
+      backgroundColor: env.bgColor,
     }, 
     likeContainer: {
       display: 'flex',
@@ -162,6 +171,14 @@ const HomePage = (props: any) => {
       fontSize: '0.8rem',
       color: hotpink,
     },
+    more: {
+      display: 'flex',
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: env.bgColor,
+      paddingRight: padding/2,
+    }
   } as const
 
   const setEvent = (event: any, index: number) => {
@@ -169,33 +186,19 @@ const HomePage = (props: any) => {
       <MapMarker
         key={`${event.position.latitude}.${event.position.longitude}.${index}`}
         event={event}
-        childrenUp={
-          <div>
-            <div style={styles.titleContainer}>
-              <div style={styles.title}>{event.title}</div>
-            </div>
-            <div style={styles.body}>
-              <div style={styles.rowContainer}>
-                <span style={styles.expirationDate}>{event.expirationDate}</span>
-                <span style={styles.until}>{until}</span>
-              </div>
-              <div style={{ margin: 4 }}></div>
-              {(event.brand !== 'none' || !event.brand) && <span style={styles.brand}>{event.brand}</span>}
-              <div style={styles.rowContainer}>
-                <div style={styles.location}>{event.location}</div>
-                <div style={styles.likeContainer}>
-                  <FaHeart size={iconSize - 8} color={hotpink}/>
-                  <div style={{ marginLeft: 4 }}>{event.like}</div>
+        children={
+          <>
+            <div style={styles.rowContainer}>
+              <div style={styles.briefContainer}>
+                <div style={styles.briefTitle}>{event.title}</div>
+                <div style={styles.briefContent}>
+                  <div style={styles.briefDate}>{event.expirationDate} {until}</div>
                 </div>
               </div>
-            </div>     
-          </div>
-        }
-        childrenDown={
-          <>
-            <button aria-label="add" style={styles.add}>
-              {'더보기'}
-            </button>
+              <div style={styles.more}>
+                <IoChevronForwardOutline size={iconSize} color={theme} />
+              </div>
+            </div>
           </>
         }
         modalChildren={

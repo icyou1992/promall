@@ -1,7 +1,8 @@
+const black = '#121212'
+const white = '#fefefe'
 const darkgray = '#303134'
 const dark = '#202124'
 const lavender = '#e5e9ea'
-const white = '#eeeeee'
 const mattegray = '#808088'
 const gray = '#98989c'
 
@@ -18,10 +19,11 @@ const brown = '#522812'
 const beige = '#eecfb3'
 const chocolate = '#563725'
 
-const bgColor = rusticbrown
+const theme = sky
 
 export { 
-  bgColor, 
+  theme, 
+  black,
   dark, 
   darkgray,
   mattegray, 

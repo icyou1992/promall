@@ -1,13 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useFirebase } from '../../context/FirebaseContext'
-import { bgColor, dark, lavender } from '../../constants/Color'
+import { dark, gray, theme, white } from '../../constants/Color'
 import { Button, Input, Text, Logo } from '../../components'
 import { IconCircle } from '../../assets/icon'
 import { Link } from 'react-router-dom'
 import { EmptyPage } from '../util'
 import { signInAPI, signInWithOAuthAPI } from '../../util/api'
 import { IsLDevice } from '../../util/responsive'
+import { useEnv } from '../../context/EnvContext'
 
 declare global {
   interface Window {
@@ -20,6 +21,7 @@ const LoginPage = (props: any) => {
   const { Kakao, naver } = window;
   // const { firebase.auth, user } = props;
   const firebase = useFirebase();
+  const env = useEnv();
   const [IsLScreen, setIsLScreen] = useState(IsLDevice());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,6 +32,7 @@ const LoginPage = (props: any) => {
   const iconSize = 48;
   const loginStatement = '로그인';
   const registerStatement = '회원가입하기';
+  const oauthStatement = '다른 플랫폼으로 로그인하기';
   const naverRef: any = useRef();
   
 
@@ -77,7 +80,7 @@ const LoginPage = (props: any) => {
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
     },
     headerText: {
-      color: lavender,
+      color: env.fontColor,
       fontSize: '1.2rem',
       fontWeight: 'bold',
       letterSpacing: '0.2rem',
@@ -86,10 +89,10 @@ const LoginPage = (props: any) => {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: dark,
+      backgroundColor: theme,
       padding: padding*4,
       borderRadius: borderRadius,
-      color: lavender,    
+      color: env.fontColor,    
       fontFamily: 'one_main_light',
     },
     logoContainer: {
@@ -117,15 +120,15 @@ const LoginPage = (props: any) => {
       margin: margin,
     },
     register: { 
-      borderBottom: `1px ${lavender} solid`,
+      borderBottom: `1px ${env.fontColor} solid`,
       fontSize: '0.8rem', 
       alignSelf: 'flex-start', 
-      color: lavender, 
+      color: env.fontColor, 
       textDecoration: 'none',
     },
     button: {
       borderRadius: borderRadius,
-      backgroundColor: bgColor,
+      backgroundColor: env.fontColor,
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
     },
     profileContainer: {
@@ -172,13 +175,14 @@ const LoginPage = (props: any) => {
     <EmptyPage navigation>
       <div style={styles.container}>
         <div style={styles.logoContainer}>
-          <Logo size={logoSize} color={bgColor}/>
+          <Logo size={logoSize} color={env.fontColor}/>
         </div>
 
         <Input 
           type={'email'} 
           header={'이메일'}
           value={email}
+          color={env.fontColor}
           onChange={(e: any) => { setEmail(e.currentTarget.value) }}
         />
         <br/>
@@ -186,18 +190,19 @@ const LoginPage = (props: any) => {
           type={'password'} 
           header={'비밀번호'}
           value={password}
+          color={env.fontColor}
           onChange={(e: any) => { setPassword(e.currentTarget.value) }}
         />
         
         <br/>
         <div style={{...styles.rowContentContainer, justifyContent: 'space-between', marginBottom: margin*6 }}>
           <Link style={styles.register} to={'/register'}>{registerStatement}</Link>
-          <Button onClick={() => { 
+          <Button color={env.fontColor} bgColor={env.bgColor} onClick={() => { 
             signInAPI(firebase.auth, email, password)
           }}>{loginStatement}</Button>
         </div>
 
-        <Text textStyle={{ fontWeight: 'bold' }} value={'다른 플랫폼으로 로그인하기'}/>
+        <Text textStyle={{ fontWeight: 'bold' }} value={oauthStatement} color={env.fontColor} />
         <div style={styles.rowContentContainer}>
           <div ref={naverRef} id='naverIdLogin' style={{ display: 'none' }}></div>
           <div onClick={naverClick}>

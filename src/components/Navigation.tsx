@@ -1,14 +1,18 @@
 import React from 'react'
+import { useEnv } from '../context/EnvContext';
 import { Nav } from 'react-bootstrap';
-import { FaUserCircle, FaMapMarkerAlt, FaHeart, FaSearch } from 'react-icons/fa';
-import { darkgray, white } from '../constants/Color';
+import { FaUserCircle, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { darkgray, gray, lavender } from '../constants/Color';
+
 const Navigation = (props: any) => {
   const {
     navigationStyle,
     tabStyle,
     tabTextStyle,
   } = props;
+  const env = useEnv();
   const zIndex = 10;
+  const padding = 2;
   const margin = 4;
   const fontSize = 8;
 
@@ -22,10 +26,6 @@ const Navigation = (props: any) => {
       route: "/search",
       icon: FaSearch,
       label: "찾기"
-    }, {
-      route: "/like",
-      icon: FaHeart,
-      label: "좋아요"
     }, {
       route: "/profile",
       icon: FaUserCircle,
@@ -41,20 +41,22 @@ const Navigation = (props: any) => {
       zIndex: zIndex,
       width: '100%',
       height: 'auto',
-      backgroundColor: darkgray,
+      backgroundColor: env.mode === 'light' ? lavender : (env.mode === 'dark' ? darkgray : gray),
     },
     navigation: {
       display: 'flex',
       flex: 1,
       flexDirection: 'row',
       justifyContent: 'space-around',
+      paddingTop: padding,
+      borderTop: `1px solid ${gray}`,
     },
     tab: {
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      color: white,
+      color: env.fontColor,
     },
     tabText: {
       marginTop: margin,
@@ -70,7 +72,7 @@ const Navigation = (props: any) => {
             <Nav.Item key={`tab-${index}`}>
               <Nav.Link href={tab.route} >
                 <div style={{ ...styles.tab, ...tabStyle }}>
-                  <tab.icon size={20} color={white} />
+                  <tab.icon size={20} color={env.fontColor} />
                   <div style={{ ...styles.tabText, ...tabTextStyle }}>{tab.label}</div>
                 </div>
               </Nav.Link>
