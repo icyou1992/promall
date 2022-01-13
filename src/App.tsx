@@ -4,10 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
-import SettingPage from './pages/SettingPage';
-import LoginPage from './pages/details/LoginPage';
-import RegisterPage from './pages/details/RegisterPage';
-import LikePage from './pages/details/LikePage';
+import { SettingPage, LoginPage, RegisterPage, LikePage } from './pages/details';
 
 import { FirebaseProvider } from './context/FirebaseContext';
 import { AlarmPage } from './pages/details';

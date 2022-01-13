@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { useLocation } from 'react-router'
 import { Link } from 'react-router-dom'
 import { FaBell } from 'react-icons/fa'
-import { EmptyPage } from './util'
+import { BasicPage, EmptyPage } from './util'
 import { useEnv } from '../context/EnvContext'
 import { SearchBar, ListItem } from '../components'
 import { categoryList } from '../constants/Category'
@@ -41,15 +41,14 @@ const SearchPage = (props: any) => {
       borderRadius: borderRadius,
       color: env.fontColor,    
       fontFamily: 'one_main_light',
+      marginTop: -margin,
     },
     searchContainer: {
       display: 'flex',
-      flex: 1,
+      // flex: 1,
+      width: '100%',
       marginLeft: margin*2,
-    },
-    bell: {
-      marginLeft: margin*4,
-      marginRight: margin
+      marginRight: margin*2,
     },
     categoryText: {
       fontSize: '1rem',
@@ -78,6 +77,7 @@ const SearchPage = (props: any) => {
       justifyContent: 'center',
       alignItems: 'center',
       textDecoration: 'none',
+      color: env.fontColor,
     }, 
     label: {
       marginTop: labelMargin,
@@ -109,17 +109,13 @@ const SearchPage = (props: any) => {
   }, [unit])
 
   return (
-    <EmptyPage
+    <BasicPage
       header={
-        <>
-          <div style={styles.searchContainer}>
-            <SearchBar value={searchByKeyword} onChange={(e: any) => setSearchByKeyword(e.currentTarget.value)} link/>
-          </div>
-          <Link style={styles.bell} to={'/alarm'}>
-            <FaBell color={env.fontColor} size={24} />
-          </Link>
-        </>
+        <div style={styles.searchContainer}>
+          <SearchBar value={searchByKeyword} onChange={(e: any) => setSearchByKeyword(e.currentTarget.value)} link/>
+        </div>
       }
+      alarm
       navigation
     >
       <div style={styles.container}>
@@ -173,7 +169,7 @@ const SearchPage = (props: any) => {
         </>
         }
       </div>
-    </EmptyPage>
+    </BasicPage>
   )
 }
 

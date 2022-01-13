@@ -7,7 +7,7 @@ import { categoryList } from '../constants/Category'
 import { Link } from 'react-router-dom'
 import { BasicPage } from './util'
 import { getPromotionAPI } from '../util/api'
-import { IsLDevice } from '../util/responsive'
+import { IsLDevice, IsMDevice } from '../util/responsive'
 import { FaHeart } from 'react-icons/fa'
 import { IoChevronForwardOutline } from 'react-icons/io5'
 
@@ -33,6 +33,7 @@ const HomePage = (props: any) => {
   const styles = {
     accordionContainer: {
       marginTop: -margin,
+      fontFamily: 'one_main_light',
     },
     categoryText: {
       textDecoration: 'none',
@@ -281,7 +282,13 @@ const HomePage = (props: any) => {
   }, [map, searchByKeywordInMap])
 
   return (
-    <BasicPage logo navigation>
+    <BasicPage 
+      logo 
+      search={IsLDevice() ? true : false}
+      profile={IsLDevice() ? true : false} 
+      alarm
+      navigation={IsMDevice() ? true : false}
+    >
       {IsLDevice() ? 
         <div style={styles.accordionContainer}>
           <Accordion defaultActiveKey={'1'} cards={cards} />

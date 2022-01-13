@@ -3,14 +3,20 @@ import PropTypes from 'prop-types'
 import { useEnv } from '../../context/EnvContext'
 import { Navigation, Logo } from '../../components'
 import { Link } from 'react-router-dom'
+// import { FiBell, FiUser, FiSearch } from 'react-icons/fi'
 import { FaBell, FaSearch, FaUser } from 'react-icons/fa'
-import { MDevice, LDevice } from '../../util/responsive'
+import { IoSettingsSharp } from 'react-icons/io5'
+import { theme } from '../../constants/Color'
 
 const BasicPage = (props: any) => {
   const {
     logo,
     header,
     headerStyle,
+    search,
+    alarm,
+    profile,
+    setting,
     children,
     navigation,
     iconStyle
@@ -63,33 +69,35 @@ const BasicPage = (props: any) => {
           </Link>}
           {header}   
           <div style={styles.shortcutContainer}>
-            <LDevice>
-              <Link to={'/search'} aria-label="Search">
-                <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
-              </Link>
-            </LDevice>
-            <Link to={'/alarm'} aria-label="Alarm">
-              <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
-            </Link>
-            <LDevice>
-              <Link to={'/profile'} aria-label="Profile">
-                <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
-              </Link>
-            </LDevice>
+            {search && <Link to={'/search'} aria-label="Search">
+              <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+            </Link>}
+            {alarm && <Link to={'/alarm'} aria-label="Alarm">
+              <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+            </Link>}
+            {profile && <Link to={'/profile'} aria-label="Profile">
+              <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+            </Link>}
+            {setting && <Link to={'/setting'} aria-label="Setting">
+              <IoSettingsSharp style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+            </Link>}
           </div>               
         </div>  
         <br/>
         {children}
       </div>
-      {navigation && <MDevice>
-        <Navigation />
-      </MDevice>}
+      {navigation && <Navigation />}
     </>
   )
 }
 
 BasicPage.propTypes = {
   logo: PropTypes.bool,
+  header: PropTypes.any,
+  search: PropTypes.bool,
+  alarm: PropTypes.bool,
+  profile: PropTypes.bool,
+  setting: PropTypes.bool,
   children: PropTypes.any,
   navigation: PropTypes.bool,
 }

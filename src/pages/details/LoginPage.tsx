@@ -5,7 +5,7 @@ import { theme } from '../../constants/Color'
 import { Button, Input, Text, Logo } from '../../components'
 import { IconCircle } from '../../assets/icon'
 import { Link } from 'react-router-dom'
-import { EmptyPage } from '../util'
+import { BasicPage } from '../util'
 import { signInAPI, signInWithOAuthAPI } from '../../util/api'
 import { IsLDevice } from '../../util/responsive'
 import { useEnv } from '../../context/EnvContext'
@@ -76,14 +76,16 @@ const LoginPage = (props: any) => {
 
   const styles = {
     header: {
-      justifyContent: 'space-between',
-      padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
+      display: 'flex', 
+      flex: 1,
+      height: 36,
     },
-    headerText: {
-      color: env.fontColor,
-      fontSize: '1.2rem',
-      fontWeight: 'bold',
-      letterSpacing: '0.2rem',
+    shortcutContainer: { 
+      display: 'flex',
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      backgroundColor: 'transparent',
     },
     container: {
       display: 'flex',
@@ -102,10 +104,6 @@ const LoginPage = (props: any) => {
       alignItems: 'center',
       paddingTop: padding,
       paddingBottom: padding*4,
-    },
-    contentHeaderContainer: {
-      marginTop: margin*2,
-      // marginBottom: margin,
     },
     rowContentContainer: {
       display: 'flex',
@@ -131,23 +129,6 @@ const LoginPage = (props: any) => {
       backgroundColor: env.fontColor,
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
     },
-    profileContainer: {
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center',
-      padding: padding*3,
-    },
-    profileContentContainer: {
-      marginLeft: margin*3,
-      fontSize: '1.2rem',
-    },
-    marketingContainer: {
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    }
   } as const 
 
   useEffect(() => {
@@ -172,7 +153,13 @@ const LoginPage = (props: any) => {
 
   if(firebase.currentUser) return <Navigate to='/profile'/>
   return (
-    <EmptyPage navigation>
+    <BasicPage 
+      header={
+        <div style={styles.header} />
+      }
+      setting
+      navigation
+    >
       <div style={styles.container}>
         <div style={styles.logoContainer}>
           <Logo size={logoSize} color={env.fontColor}/>
@@ -216,7 +203,7 @@ const LoginPage = (props: any) => {
           ))}
         </div>
       </div>
-    </EmptyPage>
+    </BasicPage>
   )
 }
 
