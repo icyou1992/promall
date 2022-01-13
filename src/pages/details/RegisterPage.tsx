@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useFirebase } from '../../context/FirebaseContext';
 import { Input, Text, Button } from '../../components';
-import { dark, gray, lavender, white } from '../../constants/Color';
 import { EmptyPage } from '../util';
 import { sendEmailVerificationAPI, signUpAPI } from '../../util/api';
 import { Navigate } from 'react-router';
@@ -36,10 +35,10 @@ const RegisterPage = (props: any) => {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: dark,
+      backgroundColor: env.bgColor,
       padding: padding*4,
       borderRadius: borderRadius,
-      color: lavender,    
+      color: env.fontColor,    
     },
     verification: { 
       alignSelf: 'flex-end',
@@ -55,14 +54,14 @@ const RegisterPage = (props: any) => {
     line: {
       flex: 1,
       height: 2, 
-      backgroundColor: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray), 
+      backgroundColor: env.bgColor, 
       // margin: -8, 
       marginTop: 4, 
       marginBottom: 12, 
     },
     entry: {
       fontSize: '0.8rem',
-      color: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray),
+      color: env.fontColor,
       marginLeft: margin,
       // alignSelf: 'flex-end',
     },

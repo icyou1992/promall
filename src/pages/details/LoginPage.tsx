@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { Navigate } from 'react-router-dom'
 import { useFirebase } from '../../context/FirebaseContext'
-import { dark, gray, theme, white } from '../../constants/Color'
+import { theme } from '../../constants/Color'
 import { Button, Input, Text, Logo } from '../../components'
 import { IconCircle } from '../../assets/icon'
 import { Link } from 'react-router-dom'
@@ -36,7 +36,7 @@ const LoginPage = (props: any) => {
   const naverRef: any = useRef();
   
 
-  const kakaoLogin = () => {
+  const kakaoLogin = useCallback(() => {
     try {
       // Kakao.Auth.authorize({ redirectUri: 'http://localhost:3000/' })
       Kakao.Auth.loginForm({
@@ -59,12 +59,12 @@ const LoginPage = (props: any) => {
     } catch(err) {
       console.log(err)
     }
-  }
+  }, [Kakao])
   
-  const naverClick = () => {
+  const naverClick = useCallback(() => {
     console.log(naverRef.current)
     naverRef.current.children[0].click();
-  }
+  }, [])
   
   const icons = [
     { name: 'kakaotalk', function: () => { kakaoLogin() } }, 

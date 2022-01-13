@@ -2,7 +2,7 @@ import React from 'react'
 import { useEnv } from '../context/EnvContext';
 import { Nav } from 'react-bootstrap';
 import { FaUserCircle, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
-import { darkgray, gray, lavender } from '../constants/Color';
+import { gray } from '../constants/Color';
 
 const Navigation = (props: any) => {
   const {
@@ -41,7 +41,7 @@ const Navigation = (props: any) => {
       zIndex: zIndex,
       width: '100%',
       height: 'auto',
-      backgroundColor: env.mode === 'light' ? lavender : (env.mode === 'dark' ? darkgray : gray),
+      backgroundColor: env.bgColor,
     },
     navigation: {
       display: 'flex',

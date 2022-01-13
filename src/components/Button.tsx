@@ -1,5 +1,4 @@
 import React from 'react'
-import { theme, lavender } from '../constants/Color';
 
 const Button = (props: any) => {
   const {

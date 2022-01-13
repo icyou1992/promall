@@ -5,9 +5,9 @@ import { useEnv } from '../context/EnvContext'
 import { EmptyPage } from './util'
 import { signOutAPI } from '../util/api'
 import { IoSettingsSharp } from 'react-icons/io5'
-import { dark, gray, lavender, white } from '../constants/Color'
-import { Profile, IconCircle } from '../assets/icon'
-import { Button, Logo } from '../components'
+import { dark, lavender } from '../constants/Color'
+// import { Profile, IconCircle } from '../assets/icon'
+import { Button } from '../components'
 // import Switch from 'react-switch';
 import LoginPage from './details/LoginPage'
 
@@ -94,7 +94,7 @@ const ProfilePage = (props: any) => {
     register: { borderBottom: `1px ${lavender} solid`, fontSize: '0.8rem', alignSelf: 'flex-start', },
     button: {
       borderRadius: borderRadius,
-      backgroundColor: env.mode === 'light' ? white : (env.mode === 'dark' ? dark : gray),
+      backgroundColor: env.bgColor,
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
     },
     profileContainer: {

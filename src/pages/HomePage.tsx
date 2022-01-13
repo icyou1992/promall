@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useFirebase } from '../context/FirebaseContext'
 import { useEnv } from '../context/EnvContext'
-import { black, dark, darkgray, gray, hotpink, lavender, theme, white } from '../constants/Color'
+import { hotpink, theme } from '../constants/Color'
 import { Accordion, Map, MapMarker, SearchBar } from '../components'
 import { categoryList } from '../constants/Category'
 import { Link } from 'react-router-dom'
@@ -158,12 +158,6 @@ const HomePage = (props: any) => {
       fontSize: '0.8rem',
       width: '100%',
     },
-    add: {
-      width: '100%',
-      borderTop: `1px solid ${white}`,
-      padding: padding,
-      backgroundColor: env.bgColor,
-    }, 
     likeContainer: {
       display: 'flex',
       flexDirection: 'row',
@@ -273,7 +267,7 @@ const HomePage = (props: any) => {
   // })
   
   useEffect(() => {
-    if(!map) return
+    if(!map) return ;
     const ps = new kakao.maps.services.Places();
 
     if(searchByKeywordInMap !== '') {

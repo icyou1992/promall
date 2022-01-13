@@ -1,5 +1,4 @@
 import React from 'react'
-import { lavender } from '../constants/Color';
 
 const Input = (props: any) => {
   const {
@@ -11,7 +10,7 @@ const Input = (props: any) => {
     headerStyle,
     inputContainerStyle,
     inputStyle,
-    color = lavender,
+    color,
   } = props;
   const padding = 8;
   const margin = 8;

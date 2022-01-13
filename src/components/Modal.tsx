@@ -1,5 +1,4 @@
 import React from 'react'
-import { theme } from '../constants/Color';
 import { useEnv } from '../context/EnvContext';
 
 const CModal = (props: any) => {
