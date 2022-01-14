@@ -60,12 +60,11 @@ const SearchBar = (props: any) => {
             onChange={onChange}  
             size={1}
           />
-          {link && <Link aria-label="SearchLink" to={{ pathname: "/search", search: `?keyword=${value}` }}>
-            <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} />
-          </Link>}
-          {onClick &&
-            <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} onClick={onClick}/>
-          }          
+          {<div onClick={onClick}>
+            <Link aria-label="SearchLink" to={{ pathname: "/search", search: `?keyword=${value}` }}>
+              <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} />
+            </Link>
+          </div>}       
         </div>
       </div>
     </>

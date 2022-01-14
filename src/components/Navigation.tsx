@@ -1,8 +1,9 @@
 import React from 'react'
 import { useEnv } from '../context/EnvContext';
 import { Nav } from 'react-bootstrap';
+import { useNavigate } from 'react-router';
 import { FaUserCircle, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
-import { gray } from '../constants/Color';
+import { darkgray, gray, lavender } from '../constants/Color';
 
 const Navigation = (props: any) => {
   const {
@@ -11,11 +12,12 @@ const Navigation = (props: any) => {
     tabTextStyle,
   } = props;
   const env = useEnv();
+  const navigate = useNavigate();
   const zIndex = 10;
-  const padding = 2;
+  const padding = 6;
   const margin = 4;
   const fontSize = 8;
-
+  const bgColor = env.mode ? lavender : darkgray;
 
   const tabs = [
     {
@@ -41,7 +43,7 @@ const Navigation = (props: any) => {
       zIndex: zIndex,
       width: '100%',
       height: 'auto',
-      backgroundColor: env.bgColor,
+      backgroundColor: bgColor,
     },
     navigation: {
       display: 'flex',
@@ -49,6 +51,7 @@ const Navigation = (props: any) => {
       flexDirection: 'row',
       justifyContent: 'space-around',
       paddingTop: padding,
+      paddingBottom: padding,
       borderTop: `1px solid ${gray}`,
     },
     tab: {
@@ -69,14 +72,10 @@ const Navigation = (props: any) => {
       <Nav activeKey={"/home"}>
         <div style={{ ...styles.navigation, }}>
           {tabs.map((tab: any, index: number) => (
-            <Nav.Item key={`tab-${index}`}>
-              <Nav.Link href={tab.route} >
-                <div style={{ ...styles.tab, ...tabStyle }}>
-                  <tab.icon size={20} color={env.fontColor} />
-                  <div style={{ ...styles.tabText, ...tabTextStyle }}>{tab.label}</div>
-                </div>
-              </Nav.Link>
-            </Nav.Item>
+            <div key={`nav-${index}`} style={{ ...styles.tab, ...tabStyle }} onClick={() => navigate(tab.route, { replace: true })}>
+              <tab.icon size={20} color={env.fontColor} />
+              <div style={{ ...styles.tabText, ...tabTextStyle }}>{tab.label}</div>
+            </div>
           ))}
         </div>
       </Nav>

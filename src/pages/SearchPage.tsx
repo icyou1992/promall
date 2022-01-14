@@ -1,9 +1,8 @@
 import React, { useState, useEffect, } from 'react'
 import PropTypes from 'prop-types'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import { Link } from 'react-router-dom'
-import { FaBell } from 'react-icons/fa'
-import { BasicPage, EmptyPage } from './util'
+import { BasicPage } from './util'
 import { useEnv } from '../context/EnvContext'
 import { SearchBar, ListItem } from '../components'
 import { categoryList } from '../constants/Category'
@@ -15,6 +14,7 @@ import { theme } from '../constants/Color'
 const SearchPage = (props: any) => {
   const firebase = useFirebase();
   const env = useEnv();
+  const navigate = useNavigate();
   const useLoc = useLocation();
   const category = new URLSearchParams(useLoc.search).get('category');
   const keyword = new URLSearchParams(useLoc.search).get('keyword');
@@ -94,6 +94,10 @@ const SearchPage = (props: any) => {
       paddingTop: paddingTop, 
     },
   } as const
+
+  document.addEventListener('backButton', e => {
+    navigate('/home', { replace: true })
+  })
 
   const sliceArraybyNumber = (arr: any, n: number) => {
     const len = arr.length;

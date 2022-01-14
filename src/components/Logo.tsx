@@ -4,10 +4,10 @@ import React from 'react'
 import Logo3 from '../assets/logo/Logo3'
 
 const Logo = (props: any) => {
-  const { color, size } = props;
+  const { color, size, onClick } = props;
 
   return (
-    <Logo3 color={color} size={size} />
+    <Logo3 color={color} size={size} onClick={onClick}/>
   )
 }
 

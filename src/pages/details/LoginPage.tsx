@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { Navigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { useFirebase } from '../../context/FirebaseContext'
 import { theme } from '../../constants/Color'
-import { Button, Input, Text, Logo } from '../../components'
+import { Button, Input, Logo } from '../../components'
 import { IconCircle } from '../../assets/icon'
-import { Link } from 'react-router-dom'
 import { BasicPage } from '../util'
 import { signInAPI, signInWithOAuthAPI } from '../../util/api'
 import { IsLDevice } from '../../util/responsive'
@@ -21,6 +20,7 @@ const LoginPage = (props: any) => {
   const { Kakao, naver } = window;
   // const { firebase.auth, user } = props;
   const firebase = useFirebase();
+  const navigate = useNavigate();
   const env = useEnv();
   const [IsLScreen, setIsLScreen] = useState(IsLDevice());
   const [email, setEmail] = useState('');
@@ -96,6 +96,7 @@ const LoginPage = (props: any) => {
       borderRadius: borderRadius,
       color: env.fontColor,    
       fontFamily: 'one_main_light',
+      marginTop: -margin*2,
     },
     logoContainer: {
       display: 'flex',
@@ -123,13 +124,16 @@ const LoginPage = (props: any) => {
       alignSelf: 'flex-start', 
       color: env.fontColor, 
       textDecoration: 'none',
+      fontFamily: 'one_main_bold',
     },
     button: {
-      borderRadius: borderRadius,
-      backgroundColor: env.fontColor,
-      padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
+      fontFamily: 'one_main_bold',
     },
   } as const 
+  
+  document.addEventListener('backButton', e => {
+    navigate('/home', { replace: true })
+  })
 
   useEffect(() => {
     if(!Kakao.isInitialized()) Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
@@ -151,7 +155,7 @@ const LoginPage = (props: any) => {
     // return naverLogin();
   }, [Kakao, naver])
 
-  if(firebase.currentUser) return <Navigate to='/profile'/>
+  if(firebase.currentUser) return <Navigate replace to='/profile'/>
   return (
     <BasicPage 
       header={
@@ -183,13 +187,13 @@ const LoginPage = (props: any) => {
         
         <br/>
         <div style={{...styles.rowContentContainer, justifyContent: 'space-between', marginBottom: margin*6 }}>
-          <Link style={styles.register} to={'/register'}>{registerStatement}</Link>
-          <Button color={env.fontColor} bgColor={env.bgColor} onClick={() => { 
+          <div style={styles.register} onClick={() => navigate('/register')}>{registerStatement}</div>
+          <Button buttonStyle={styles.button} color={env.fontColor} bgColor={env.bgColor} onClick={() => { 
             signInAPI(firebase.auth, email, password)
           }}>{loginStatement}</Button>
         </div>
 
-        <Text textStyle={{ fontWeight: 'bold' }} value={oauthStatement} color={env.fontColor} />
+        {/* <Text textStyle={{ fontWeight: 'bold' }} value={oauthStatement} color={env.fontColor} /> */}
         <div style={styles.rowContentContainer}>
           <div ref={naverRef} id='naverIdLogin' style={{ display: 'none' }}></div>
           <div onClick={naverClick}>

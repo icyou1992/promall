@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useEnv } from '../../context/EnvContext'
 import { Navigation, Logo } from '../../components'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 // import { FiBell, FiUser, FiSearch } from 'react-icons/fi'
 import { FaBell, FaSearch, FaUser } from 'react-icons/fa'
 import { IoSettingsSharp } from 'react-icons/io5'
@@ -11,6 +11,7 @@ import { theme } from '../../constants/Color'
 const BasicPage = (props: any) => {
   const {
     logo,
+    onLogoClick,
     header,
     headerStyle,
     search,
@@ -22,6 +23,7 @@ const BasicPage = (props: any) => {
     iconStyle
   } = props;
   const env = useEnv();
+  const navigate = useNavigate();
   const margin = 8;
   const padding = 8;
   const logoSize = 128;
@@ -62,25 +64,23 @@ const BasicPage = (props: any) => {
     <>
       <div style={styles.container}>
         <div style={{ ...styles.header, ...headerStyle }}>
-          {logo && <Link to={'/'} aria-label="Logo">
-            <div role='button' aria-label="Logo" style={styles.logoContainer}>
-              <Logo size={logoSize} color={env.fontColor}/>
-            </div>
-          </Link>}
+          {logo && <div role='button' aria-label="Logo" style={styles.logoContainer} onClick={onLogoClick}>
+            <Logo size={logoSize} color={env.fontColor} />
+          </div>}
           {header}   
           <div style={styles.shortcutContainer}>
-            {search && <Link to={'/search'} aria-label="Search">
+            {search && <div aria-label="Search" onClick={() => navigate('/search')}>
               <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
-            </Link>}
-            {alarm && <Link to={'/alarm'} aria-label="Alarm">
+            </div>}
+            {alarm && <div aria-label="Alarm" onClick={() => navigate('/alarm')}>
               <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
-            </Link>}
-            {profile && <Link to={'/profile'} aria-label="Profile">
+            </div>}
+            {profile && <div aria-label="Profile" onClick={() => navigate('/profile')}>
               <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
-            </Link>}
-            {setting && <Link to={'/setting'} aria-label="Setting">
+            </div>}
+            {setting && <div aria-label="Setting" onClick={() => navigate('/setting')}>
               <IoSettingsSharp style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
-            </Link>}
+            </div>}
           </div>               
         </div>  
         <br/>
@@ -93,6 +93,7 @@ const BasicPage = (props: any) => {
 
 BasicPage.propTypes = {
   logo: PropTypes.bool,
+  onLogoClick: PropTypes.func,
   header: PropTypes.any,
   search: PropTypes.bool,
   alarm: PropTypes.bool,

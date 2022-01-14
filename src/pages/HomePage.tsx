@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router'
 import { useFirebase } from '../context/FirebaseContext'
 import { useEnv } from '../context/EnvContext'
 import { hotpink, theme } from '../constants/Color'
 import { Accordion, Map, MapMarker, SearchBar } from '../components'
 import { categoryList } from '../constants/Category'
-import { Link } from 'react-router-dom'
 import { BasicPage } from './util'
 import { getPromotionAPI } from '../util/api'
 import { IsLDevice, IsMDevice } from '../util/responsive'
@@ -23,6 +23,7 @@ const HomePage = (props: any) => {
   const [input, setInput] = useState(''); 
   const [searchByKeywordInMap, setSearchByKeywordInMap] = useState('');
   const [mapLevel, setMapLevel] = useState(4);
+  const navigate = useNavigate();
   const margin = 8;
   const padding = 8;
   const borderRadius = 8;
@@ -67,6 +68,7 @@ const HomePage = (props: any) => {
       fontSize: '1rem',
       letterSpacing: '0.2rem',
       marginRight: margin*4,
+      color: env.fontColor,
     },
     mapSearch: {
       display: 'flex', 
@@ -224,17 +226,17 @@ const HomePage = (props: any) => {
       <div style={styles.mapText}>필요한 물품의 할인 행사를 찾아보세요!</div>, 
       <>
         {categoryList.map((item: any, index: number) => (
-          <Link 
+          <div 
             key={index} 
             style={styles.categoryText}
             aria-label="Category"
-            to={`/search/?id=${item._id}`} 
+            onClick={() => navigate(`/search/?id=${item._id}`)} 
           >
             <div role='button' aria-label="card">
               {item.label}
             </div>
             <hr/>
-          </Link>
+          </div>
         ))}
       </>
     ],
@@ -284,6 +286,7 @@ const HomePage = (props: any) => {
   return (
     <BasicPage 
       logo 
+      onLogoClick={() => env.setMode(!env.mode)}
       search={IsLDevice() ? true : false}
       profile={IsLDevice() ? true : false} 
       alarm
