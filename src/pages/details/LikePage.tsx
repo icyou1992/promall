@@ -1,8 +1,7 @@
 import React from 'react'
-import { EmptyPage } from '../util'
-import { Link, Navigate } from 'react-router-dom';
-import { lavender, white } from '../../constants/Color';
-import { FaBell } from 'react-icons/fa';
+import { BasicPage } from '../util'
+import { Navigate } from 'react-router-dom';
+import { lavender } from '../../constants/Color';
 import { useFirebase } from '../../context/FirebaseContext';
 
 const LikePage = () => {
@@ -29,20 +28,14 @@ const LikePage = () => {
 
   if(!firebase.currentUser) return <Navigate to='/login'/>;;
   return (
-    <EmptyPage 
-      header={
-        <>
-          <div style={styles.headerText}>{header}</div>
-          <Link style={styles.bell} to={'/alarm'}>
-            <FaBell color={white} size={24} />
-          </Link>
-        </>
-      }
+    <BasicPage 
+      header={header}
+      alarm
       headerStyle={styles.header}
       navigation
     >
       Like
-    </EmptyPage>
+    </BasicPage>
   )
 }
 

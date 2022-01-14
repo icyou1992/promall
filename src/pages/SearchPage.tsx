@@ -1,23 +1,20 @@
 import React, { useState, useEffect, } from 'react'
 import PropTypes from 'prop-types'
 import { useLocation, useNavigate } from 'react-router'
-import { Link } from 'react-router-dom'
-import { BasicPage } from './util'
+import { useFirebase } from '../context/FirebaseContext'
 import { useEnv } from '../context/EnvContext'
 import { SearchBar, ListItem } from '../components'
-import { categoryList } from '../constants/Category'
+import { BasicPage } from './util'
 import { IsSDevice } from '../util/responsive'
 import { getPromotionAPI } from '../util/api';
-import { useFirebase } from '../context/FirebaseContext'
+import { categoryList } from '../constants/Category'
 import { theme } from '../constants/Color'
 
 const SearchPage = (props: any) => {
   const firebase = useFirebase();
   const env = useEnv();
   const navigate = useNavigate();
-  const useLoc = useLocation();
-  const category = new URLSearchParams(useLoc.search).get('category');
-  const keyword = new URLSearchParams(useLoc.search).get('keyword');
+  const { state }: any = useLocation();
   const [searchByKeyword, setSearchByKeyword] = useState('');
   const [sliced, setSliced] = useState<any>();
   const [events, setEvents] = useState([]);
@@ -95,9 +92,10 @@ const SearchPage = (props: any) => {
     },
   } as const
 
-  document.addEventListener('backButton', e => {
-    navigate('/home', { replace: true })
-  })
+  window.history.pushState(null, '', window.location.href)
+  window.onpopstate = () => {
+    navigate('/', { replace: true })
+  }
 
   const sliceArraybyNumber = (arr: any, n: number) => {
     const len = arr.length;
@@ -123,22 +121,25 @@ const SearchPage = (props: any) => {
       navigation
     >
       <div style={styles.container}>
-        {(!category && !keyword) ?
+        {(!state?.category && !state?.keyword) ?
         <>
           <div style={styles.categoryText}>{mainText}</div>
           <div style={styles.category}>
             {sliced && sliced.map((categorySet: any, i1: number) => (
               <div key={`category_${i1}`} style={styles.categoryRow}>
                 {categorySet.map((item: any, i2: number) => (
-                  <Link
+                  <div
                     key={item._id + i2} 
-                    to={{ pathname: '/search', search: `?category=${item._id}` }}
+                    // to={{ pathname: '/search', search: `?category=${item._id}` }}
                     style={styles.item}
-                    onClick={() => { getPromotionAPI(firebase.db, { 'category': item._id }).then(res => { setEvents(res); console.log(res) })}}
+                    onClick={() => { 
+                      navigate('/search', { state: { category: item._id } })
+                      getPromotionAPI(firebase.db, { 'category': item._id }).then(res => { setEvents(res); 
+                    })}}
                   >
                     <item.icon size={iconSize} color={env.fontColor} />
                     <div style={styles.label}>{item.label}</div>
-                  </Link>
+                  </div>
                 ))}
               </div>
             ))}
@@ -147,23 +148,23 @@ const SearchPage = (props: any) => {
         :
         <>
           <div style={styles.listContainer}>
-            {keyword ?
+            {state?.keyword ?
               <>
-                <ListItem>{keyword}</ListItem>
+                <ListItem>{state.keyword}</ListItem>
                 <hr/>
-                <ListItem>{keyword}</ListItem>
+                <ListItem>{state.keyword}</ListItem>
                 <hr/>
-                <ListItem>{keyword}</ListItem>
+                <ListItem>{state.keyword}</ListItem>
                 <hr/>
-                <ListItem>{keyword}</ListItem>
+                <ListItem>{state.keyword}</ListItem>
                 <hr/>
               </>
             :
-            (category && 
+            (state?.category && 
               <>
                 {events.map((event: any, index: number) => (
                   <div key={index}>
-                    <ListItem index={index + 1} onClick={() => console.log(category)}>{event.title + " " + category}</ListItem>
+                    <ListItem index={index + 1} onClick={() => console.log(state.category)}>{event.title + " " + state.category}</ListItem>
                     <hr/>
                   </div>
                 ))}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { EmptyPage } from '../util'
 import Switch from 'react-switch';
-import { dark, lavender, white } from '../../constants/Color';
+import { dark, lavender } from '../../constants/Color';
 import { useEnv } from '../../context/EnvContext';
 
 

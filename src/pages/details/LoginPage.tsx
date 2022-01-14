@@ -32,7 +32,7 @@ const LoginPage = (props: any) => {
   const iconSize = 48;
   const loginStatement = '로그인';
   const registerStatement = '회원가입하기';
-  const oauthStatement = '다른 플랫폼으로 로그인하기';
+  // const oauthStatement = '다른 플랫폼으로 로그인하기';
   const naverRef: any = useRef();
   
 
@@ -130,10 +130,16 @@ const LoginPage = (props: any) => {
       fontFamily: 'one_main_bold',
     },
   } as const 
-  
-  document.addEventListener('backButton', e => {
-    navigate('/home', { replace: true })
-  })
+
+  // document.addEventListener('backbutton', e => {
+  //   e.stopPropagation()
+  //   navigate('/', { replace: true })
+  // })
+
+  window.history.pushState(null, '', window.location.href)
+  window.onpopstate = () => {
+    navigate('/', { replace: true })
+  }
 
   useEffect(() => {
     if(!Kakao.isInitialized()) Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
@@ -165,7 +171,7 @@ const LoginPage = (props: any) => {
       navigation
     >
       <div style={styles.container}>
-        <div style={styles.logoContainer}>
+        <div style={styles.logoContainer} onClick={() => navigate('/like')}>
           <Logo size={logoSize} color={env.fontColor}/>
         </div>
 

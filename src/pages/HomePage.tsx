@@ -263,11 +263,12 @@ const HomePage = (props: any) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  // useEffect(() => {
-  //   window.addEventListener('popstate', (event) => {
-  //     props.history.replaceState('/')
-  //   });
-  // })
+  // window.history.pushState(null, '', window.location.href)
+  window.onpopstate = () => {
+    // window.history.go(0);
+    window.open('', '_self', '')
+    window.self.close();
+  }
   
   useEffect(() => {
     if(!map) return ;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Navigate } from 'react-router-dom'
+import { useNavigate } from 'react-router'
 import { useFirebase } from '../context/FirebaseContext'
 import { useEnv } from '../context/EnvContext'
 import { EmptyPage } from './util'
@@ -15,6 +16,7 @@ const ProfilePage = (props: any) => {
   // const { auth, user } = props;
   const firebase = useFirebase();
   const env = useEnv();
+  const navigate = useNavigate();
   const [profile, setProfile]: any = useState();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -117,6 +119,11 @@ const ProfilePage = (props: any) => {
     }
   } as const
   
+  window.history.pushState(null, '', window.location.href)
+  window.onpopstate = () => {
+    navigate('/', { replace: true })
+  }
+
   if(!firebase.currentUser) return <Navigate to='/login'/>;
   return (
     <EmptyPage 

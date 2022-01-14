@@ -40,11 +40,11 @@ const App = (props: any) => {
           <Route path='/search' element={<SearchPage {...props} />}/>
           {/* <Route path='/search/:categoryId' element={<SearchPage {...props} />}/> */}
           {/* <Route path='/search/:keyword' element={<SearchPage {...props} />}/> */}
-          <Route path='/like' element={<LikePage {...props} />}/>
           <Route path='/profile' element={<ProfilePage {...props} />}/>
           <Route path='/login' element={<LoginPage {...props} />}/>
           <Route path='/register' element={<RegisterPage {...props} />}/>
           <Route path='/alarm' element={<AlarmPage {...props} />}/>
+          <Route path='/like' element={<LikePage {...props} />}/>
           <Route path='/setting' element={<SettingPage {...props} />}/>
         </Routes>
         </EnvProvider>

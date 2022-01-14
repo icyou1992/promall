@@ -69,10 +69,14 @@ const Navigation = (props: any) => {
 
   return (
     <nav role="navigation" style={{ ...styles.navigationContainer, ...navigationStyle }}>
-      <Nav activeKey={"/home"}>
+      <Nav activeKey={"/"}>
         <div style={{ ...styles.navigation, }}>
           {tabs.map((tab: any, index: number) => (
-            <div key={`nav-${index}`} style={{ ...styles.tab, ...tabStyle }} onClick={() => navigate(tab.route, { replace: true })}>
+            <div 
+              key={`nav-${index}`} 
+              style={{ ...styles.tab, ...tabStyle }} 
+              onClick={() => navigate(tab.route, { replace: true })}
+            >
               <tab.icon size={20} color={env.fontColor} />
               <div style={{ ...styles.tabText, ...tabTextStyle }}>{tab.label}</div>
             </div>

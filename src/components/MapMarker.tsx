@@ -68,7 +68,7 @@ const CMapMarker = (props: any) => {
       document.querySelector("#map > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(4)")?.remove()
       document.querySelector("#map > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(3) > div:nth-child(1)")?.remove()
       // 이게 실행된 다음에 리렌더링을 시켜야 하는 거 같은데?
-      console.log(document.querySelector("#map > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(4)")?.attributes)
+      // console.log(document.querySelector("#map > div:nth-child(1) > div > div:nth-child(6) > div:nth-child(4)")?.attributes)
     }
   }, [])
 

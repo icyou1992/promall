@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { useEnv } from '../context/EnvContext';
 import { FaSearch } from 'react-icons/fa';
 
@@ -13,9 +13,9 @@ const SearchBar = (props: any) => {
     backgroundColor,
     iconSize = 16,
     onClick,
-    link,
   } = props
   const env = useEnv();
+  const navigate = useNavigate();
   const padding = 4;
   const margin = 8;
 
@@ -56,14 +56,13 @@ const SearchBar = (props: any) => {
             style={{ ...styles.input, ...inputStyle }}
             placeholder={placeholder ? placeholder : ''}  
             value={value} 
-            // onChange={(e) => { setSearch(e.currentTarget.value); }}  
             onChange={onChange}  
             size={1}
           />
           {<div onClick={onClick}>
-            <Link aria-label="SearchLink" to={{ pathname: "/search", search: `?keyword=${value}` }}>
+            <div aria-label="SearchLink" onClick={() => navigate('/search', { state: { keyword: value } })}>
               <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} />
-            </Link>
+            </div>
           </div>}       
         </div>
       </div>

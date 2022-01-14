@@ -3,8 +3,8 @@ const white = '#fefefe'
 const darkgray = '#303134'
 const dark = '#202124'
 const lavender = '#e5e9ea'
-const mattegray = '#808088'
 const gray = '#98989c'
+const bluegray = '#7C99AC'
 
 const sky = '#77b5fe'
 const pink = '#eda9c0'
@@ -18,15 +18,16 @@ const redbrown = '#8A2D1C'
 const brown = '#522812'
 const beige = '#eecfb3'
 const chocolate = '#563725'
+const lightgreen = '#96CEB4'
 
-const theme = sky
+const theme = bluegray
 
 export { 
   theme, 
   black,
   dark, 
   darkgray,
-  mattegray, 
+  bluegray, 
   gray,
   lavender, 
   white, 
@@ -42,4 +43,5 @@ export {
   redbrown,
   beige,
   chocolate,
+  lightgreen,
 }

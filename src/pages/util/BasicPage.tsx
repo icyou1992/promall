@@ -95,6 +95,7 @@ BasicPage.propTypes = {
   logo: PropTypes.bool,
   onLogoClick: PropTypes.func,
   header: PropTypes.any,
+  headerStyle: PropTypes.object,
   search: PropTypes.bool,
   alarm: PropTypes.bool,
   profile: PropTypes.bool,
