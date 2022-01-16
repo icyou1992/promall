@@ -15,7 +15,7 @@ const CModal = (props: any) => {
     modalContainer: {
       position: 'fixed',
       left: 0,
-      bottom: show ? '0' : '-150vh',
+      bottom: (show === false || show === '')  ? '0' : '-150vh',
       width: (mode === 'full') ? '100vw' : 'auto',
       height: (mode === 'full') ? '100vh' : (mode === 'half') ? '50vh' : 'auto',
       transition: 'bottom .3s ease-out',
@@ -32,7 +32,7 @@ const CModal = (props: any) => {
 
   return (
     <div style={styles.modalContainer}>
-      {show && <div style={styles.modalBody} onClick={onClick}>
+      {(show === true || show !== '') && <div style={styles.modalBody} onClick={onClick}>
         {children}
       </div>} 
     </div>

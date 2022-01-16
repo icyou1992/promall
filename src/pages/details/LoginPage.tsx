@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, MutableRefObject } from 'react'
 import { useNavigate, Navigate } from 'react-router-dom'
 import { useFirebase } from '../../context/FirebaseContext'
 import { theme } from '../../constants/Color'
-import { Button, Input, Logo } from '../../components'
+import { Button, Input, Logo, Modal } from '../../components'
 import { IconCircle } from '../../assets/icon'
 import { BasicPage } from '../util'
 import { signInAPI, signInWithOAuthAPI } from '../../util/api'
@@ -21,7 +21,9 @@ const LoginPage = (props: any) => {
   // const { firebase.auth, user } = props;
   const firebase = useFirebase();
   const navigate = useNavigate();
+  // const ref = useRef() as MutableRefObject<HTMLDivElement>;
   const env = useEnv();
+  const [err, setErr] = useState('');
   const [IsLScreen, setIsLScreen] = useState(IsLDevice());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +39,7 @@ const LoginPage = (props: any) => {
   
 
   const kakaoLogin = useCallback(() => {
+    if(!Kakao.isInitialized()) Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
     try {
       // Kakao.Auth.authorize({ redirectUri: 'http://localhost:3000/' })
       Kakao.Auth.loginForm({
@@ -115,9 +118,6 @@ const LoginPage = (props: any) => {
       marginTop: margin,
       marginBottom: margin,
     },
-    icon: {
-      margin: margin,
-    },
     register: { 
       borderBottom: `1px ${env.fontColor} solid`,
       fontSize: '0.8rem', 
@@ -129,6 +129,9 @@ const LoginPage = (props: any) => {
     button: {
       fontFamily: 'one_main_bold',
     },
+    modal: {
+
+    }
   } as const 
 
   // document.addEventListener('backbutton', e => {
@@ -136,16 +139,14 @@ const LoginPage = (props: any) => {
   //   navigate('/', { replace: true })
   // })
 
-  window.history.pushState(null, '', window.location.href)
-  window.onpopstate = () => {
-    navigate('/', { replace: true })
-  }
+  // window.history.pushState(null, '', window.location.href)
+  // window.onpopstate = () => {
+  //   navigate('/', { replace: true })
+  // }
 
   useEffect(() => {
-    if(!Kakao.isInitialized()) Kakao.init(process.env.REACT_APP_API_KEY_KAKAO)
-    
     const naverLogin = () => {
-      const callbackUrl = 'http://localhost:3000/profile'
+      const callbackUrl = '/profile'
   
       const login = new naver.LoginWithNaverId({
         clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
@@ -157,8 +158,8 @@ const LoginPage = (props: any) => {
       login.init();
       login.logout();
     } 
-    naverLogin();
-    // return naverLogin();
+    // naverLogin();
+    return naverLogin();
   }, [Kakao, naver])
 
   if(firebase.currentUser) return <Navigate replace to='/profile'/>
@@ -170,7 +171,7 @@ const LoginPage = (props: any) => {
       setting
       navigation
     >
-      <div style={styles.container}>
+      <div id={'container'} style={styles.container}>
         <div style={styles.logoContainer} onClick={() => navigate('/like')}>
           <Logo size={logoSize} color={env.fontColor}/>
         </div>
@@ -195,7 +196,10 @@ const LoginPage = (props: any) => {
         <div style={{...styles.rowContentContainer, justifyContent: 'space-between', marginBottom: margin*6 }}>
           <div style={styles.register} onClick={() => navigate('/register')}>{registerStatement}</div>
           <Button buttonStyle={styles.button} color={env.fontColor} bgColor={env.bgColor} onClick={() => { 
-            signInAPI(firebase.auth, email, password)
+            signInAPI(firebase.auth, email, password).catch((err) => {
+              // setErr(err.toString());
+              // console.log(err.toString());
+            }); 
           }}>{loginStatement}</Button>
         </div>
 
@@ -207,11 +211,14 @@ const LoginPage = (props: any) => {
           </div>
 
           {icons.map((icon, index) => (
-            <div key={index} id={icon.name} style={styles.icon} onClick={icon.function}>
+            <div key={index} id={icon.name} onClick={icon.function}>
               <IconCircle size={iconSize} image={icon.name} />
             </div>
           ))}
         </div>
+        {/* <Modal show={err} mode={'half'} onClick={() => setErr(err)}>
+          <div style={styles.modal}>{err}</div>
+        </Modal> */}
       </div>
     </BasicPage>
   )

@@ -26,18 +26,18 @@ const RegisterPage = (props: any) => {
   const iconSize = 32;
 
   const styles = {
-    back: {
-    },
+    back: {},
     title: {
       fontWeight: 'bold',
     },
     container: {
       display: 'flex',
-      flex: 1,
+      // flex: 1,
       flexDirection: 'column',
       backgroundColor: env.bgColor,
       padding: padding*4,
       borderRadius: borderRadius,
+      // height: '100vh',
       color: env.fontColor,    
     },
     verification: { 
@@ -110,7 +110,8 @@ const RegisterPage = (props: any) => {
     >
       <div style={styles.container}>
         <Input type={'text'} header={'이메일'} value={email} onChange={(e: any) => { setEmail(e.currentTarget.value) }} placeholder={emailPlaceholder}/>
-        <div style={styles.verification} onClick={() => { requestEmailVerification() }}>인증하기</div>
+        {/* <Button style={styles.verification} onClick={() => requestEmailVerification()} children={'인증하기'} /> */}
+        <div style={styles.verification} onClick={() => { requestEmailVerification() }}>{'인증하기'}</div>
         <Input type={'password'} header={'비밀번호'} value={password} onChange={(e: any) => { setPassword(e.currentTarget.value) }} placeholder={pwPlaceholder}/>
         <Input type={'password'} header={'비밀번호 확인'} value={passwordCheck} onChange={(e: any) => { setPasswordCheck(e.currentTarget.value) }} placeholder={pwcPlaceholder}/>
         <div style={styles.rowContentContainer}>
@@ -126,7 +127,7 @@ const RegisterPage = (props: any) => {
         </div>
 
         <div style={styles.form}>
-          <Button onClick={() => { requestCreateAccount() }}>회원가입하기</Button>
+          <Button onClick={() => { requestCreateAccount() }} children={'회원가입하기'} />
         </div>
         
       </div>

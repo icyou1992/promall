@@ -25,7 +25,6 @@ const ProfilePage = (props: any) => {
   const [push, setPush] = useState(false);
   const padding = 8;
   const borderRadius = 8;
-  const logoSize = 192;
   const iconSize = 48;
   const icons = ['kakaotalk', 'naver', 'google', 'facebook', 'apple'];
   const margin = 8;
@@ -175,7 +174,7 @@ const ProfilePage = (props: any) => {
         </div>
       </div> */}
 
-      <Button whiteStyle onClick={() => { signOutAPI(firebase.auth); console.log(firebase) }}>
+      <Button onClick={() => { signOutAPI(firebase.auth); }}>
         signout
       </Button>
     </EmptyPage>

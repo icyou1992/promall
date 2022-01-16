@@ -32,7 +32,7 @@ const BasicPage = (props: any) => {
   const styles = {
     container: {
       width: '100vw',
-      height: '100vh',
+      minHeight: '100vh',
       backgroundColor: env.bgColor,
     },
     header: {

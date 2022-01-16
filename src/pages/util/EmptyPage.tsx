@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useEnv } from '../../context/EnvContext';
 import { Link } from 'react-router-dom';
 import { MDevice } from '../../util/responsive';
@@ -21,8 +22,8 @@ const EmptyPage = (props: any) => {
 
   const styles = {
     container: {
-      width: '100vw',
-      height: '100vh',
+      // width: '100vw',
+      minHeight: '100vh',
       backgroundColor: env.bgColor,
     },
     header: {
@@ -34,16 +35,15 @@ const EmptyPage = (props: any) => {
       justifyContent: 'space-between',
       alignItems: 'center',
       padding: padding,
-      // marginBottom: margin,
     },
   }
 
   return (
     <div style={styles.container}>
-      <div style={{ ...styles.header, ...headerStyle }}>
+      {(back || header) && <div style={{ ...styles.header, ...headerStyle }}>
         {back && <Link to={backLink}><IoChevronBackOutline size={backSize} color={env.fontColor}/></Link>}
         {header}
-      </div>
+      </div>}
       {children}
       {navigation && <MDevice>
         <Navigation />
@@ -51,5 +51,16 @@ const EmptyPage = (props: any) => {
     </div>
   )
 }
+
+EmptyPage.propTypes = {
+  back: PropTypes.bool,
+  backSize: PropTypes.number,
+  backLink: PropTypes.string,
+  header: PropTypes.any,
+  headerStyle: PropTypes.object,
+  children: PropTypes.any,
+  navigation: PropTypes.bool,
+}
+
 
 export default EmptyPage

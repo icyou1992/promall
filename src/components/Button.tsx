@@ -1,4 +1,5 @@
 import React from 'react'
+import { theme } from '../constants/Color';
 
 const Button = (props: any) => {
   const {
@@ -17,7 +18,7 @@ const Button = (props: any) => {
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      backgroundColor: bgColor,
+      backgroundColor: bgColor || theme,
       color: color,
       padding: `${padding}px ${padding*2}px ${padding}px ${padding*2}px`,
       width: 'fit-content',

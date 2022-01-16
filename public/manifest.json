@@ -1,7 +1,7 @@
 {
   "short_name": "Promall",
-  "name": "Find Promotion \nnear by your place",
-  "description": "Find Promotion near by your place",
+  "name": "Promall",
+  "description": "Find Promotion \nnear by your place",
   "start_url": "/",
   "display": "standalone",
   "theme_color": "#7C99AC",
@@ -9,25 +9,15 @@
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "maskable_icon_x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "maskable_icon_x192.png",
+      "src": "icon_x192.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "maskable_icon_x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
-    },
-    {
-      "src": "maskable_icon_x512.png",
-      "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable any"
+    },
+    {
+      "src": "icon_x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
     }
   ]
 }

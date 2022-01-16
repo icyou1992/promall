@@ -1,4 +1,5 @@
 import React from 'react'
+import { useEnv } from '../context/EnvContext';
 
 const Input = (props: any) => {
   const {
@@ -12,6 +13,7 @@ const Input = (props: any) => {
     inputStyle,
     color,
   } = props;
+  const env = useEnv();
   const padding = 8;
   const margin = 8;
   
@@ -22,7 +24,7 @@ const Input = (props: any) => {
       justifyContent: 'space-between',
     },
     inputContainer: {
-      borderBottom: `1px ${color} solid`,
+      borderBottom: `1px ${env.fontColor} solid`,
       marginBottom: margin,
     },
     input: {
@@ -33,7 +35,7 @@ const Input = (props: any) => {
       fontSize: '1rem', 
       border: 0, 
       outline: 'none',
-      color: color,
+      color: env.fontColor,
     },
   }
   

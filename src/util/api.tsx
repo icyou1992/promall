@@ -91,9 +91,8 @@ export const signInAPI = async(auth: any, email: string, password: string) => {
         return user
       })
     }
-  } catch(err) {
-    console.log(err)
-    return null
+  } catch(err: any) {
+    throw new Error(err)
   }
 }
 
@@ -208,17 +207,17 @@ export const getCurrrentUserAPI = (auth: any) => {
 }
 
 export const sendEmailVerificationAPI = async(user: any, url: any) => {
-  const actionCodeSettings = {
-    url: 'https://localhost:3000',
-    iOS: {
-      bundleId: 'com.'
-    },
-    android: {
+  // const actionCodeSettings = {
+  //   url: 'https://localhost:3000',
+  //   iOS: {
+  //     bundleId: 'com.'
+  //   },
+  //   android: {
 
-    },
-    handleCodeInApp: true,
-    dynamicLinkDomain: 'example.page.link'
-  }
+  //   },
+  //   handleCodeInApp: true,
+  //   dynamicLinkDomain: 'example.page.link'
+  // }
 
   try {
     return await sendEmailVerification(user, url)

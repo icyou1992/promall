@@ -8,7 +8,6 @@ import { categoryList } from '../constants/Category'
 import { BasicPage } from './util'
 import { getPromotionAPI } from '../util/api'
 import { IsLDevice, IsMDevice } from '../util/responsive'
-import { FaHeart } from 'react-icons/fa'
 import { IoChevronForwardOutline } from 'react-icons/io5'
 
 
@@ -140,6 +139,7 @@ const HomePage = (props: any) => {
       display: 'flex',
       width: '100%',
       flexDirection: 'row',
+      color: env.fontColor
     },
     expirationDate: {
       fontSize: '0.8rem',
@@ -198,25 +198,6 @@ const HomePage = (props: any) => {
             </div>
           </>
         }
-        modalChildren={
-          <>
-            <div style={styles.titleContainer}>
-              <div style={styles.title}>{event.title}</div>
-              <FaHeart size={iconSize} color={hotpink}/>
-            </div>
-            <div style={styles.body}>
-              <div style={styles.rowContainer}>
-                <span style={styles.expirationDate}>{event.expirationDate}</span>
-                <span style={styles.until}>{until}</span>
-              </div>
-              {event.description && <textarea disabled={true} aria-label="MapMarker" style={styles.description} value={event.description} />}
-              {(event.brand !== 'none' || !event.brand) && <span style={styles.brand}>{event.brand}</span>}
-              <div style={styles.location}>{event.location}</div>
-            </div>
-            <br/>
-            <img src={event.image} alt="can't find" width="100%"/>
-          </>
-        }
       />
     )
   }
@@ -264,11 +245,10 @@ const HomePage = (props: any) => {
   }, [])
 
   // window.history.pushState(null, '', window.location.href)
-  window.onpopstate = () => {
-    // window.history.go(0);
-    window.open('', '_self', '')
-    window.self.close();
-  }
+  // window.onpopstate = () => {
+  //   window.open('', '_self', '')
+  //   window.self.close();
+  // }
   
   useEffect(() => {
     if(!map) return ;

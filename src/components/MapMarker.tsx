@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect, MutableRefObject } from 'react'
-import { useEnv } from '../context/EnvContext'
 import { MapMarker, CustomOverlayMap, useMap } from 'react-kakao-maps-sdk'
-import { Modal } from '../components'
+import { useNavigate } from 'react-router'
 
 const CMapMarker = (props: any) => {
   const { 
     event,
     children,
     onClick,
-    modalChildren,
   } = props;
   const {
     wrapStyle,
@@ -16,9 +14,8 @@ const CMapMarker = (props: any) => {
   } = event;
   const map = useMap();
   const ref = useRef() as MutableRefObject<HTMLDivElement>;
-  const env = useEnv();
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const markerSizeBasic = 20;
   const markerSizeFocused = 24;
   const [markerSize, setMarkerSize] = useState(markerSizeBasic);
@@ -37,7 +34,6 @@ const CMapMarker = (props: any) => {
       bottom: offset,
       width: width,
       marginLeft: -width/2,
-      backgroundColor: env.bgColor,
       borderRadius: borderRadius,
       borderBottom: '2px solid #ccc',
       borderRight: '1px solid #ccc',
@@ -92,7 +88,7 @@ const CMapMarker = (props: any) => {
             zIndex={1}
           >
             <div className="customOverlay" style={{ ...styles.wrap, ...wrapStyle }}>
-              <div onClick={() => { setShowModal(true); }}>
+              <div onClick={() => { navigate('detail', { state: { event: event } }) }}>
                 <div onClick={onClick}>
                   {children}
                 </div>
@@ -101,9 +97,9 @@ const CMapMarker = (props: any) => {
           </CustomOverlayMap>}
         </MapMarker>
       </div>
-      <Modal show={showModal} mode={'full'} onClick={() => setShowModal(false)}>
+      {/* <Modal show={showModal} mode={'full'} onClick={() => setShowModal(false)}>
         {modalChildren}
-      </Modal>
+      </Modal> */}
     </div>
   )
 }
