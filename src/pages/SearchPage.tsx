@@ -8,7 +8,7 @@ import { BasicPage } from './util'
 import { IsSDevice } from '../util/responsive'
 import { getPromotionAPI } from '../util/api';
 import { categoryList } from '../constants/Category'
-import { theme } from '../constants/Color'
+// import { theme } from '../constants/Color'
 
 const SearchPage = (props: any) => {
   const firebase = useFirebase();
@@ -26,14 +26,14 @@ const SearchPage = (props: any) => {
   const itemSize = 64;
   const labelMargin = 4;
   const paddingTop = 4;
-  const mainText = '카테고리';
+  const headerText = '카테고리';
   
   const styles = {
     container: {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: theme,
+      backgroundColor: 'transparent',
       padding: padding,
       borderRadius: borderRadius,
       color: env.fontColor,    
@@ -42,16 +42,18 @@ const SearchPage = (props: any) => {
     },
     searchContainer: {
       display: 'flex',
-      // flex: 1,
-      width: '100%',
+      flex: 1,
       marginLeft: margin*2,
       marginRight: margin*2,
     },
-    categoryText: {
+    header: {
       fontSize: '1rem',
+      fontFamily: 'one_main_light',
       fontWeight: 'bold',
       letterSpacing: '0.2rem',
       color: env.fontColor,
+      marginLeft: margin,
+      marginRight: margin,
     },
     category: {
       display: 'flex',
@@ -113,9 +115,12 @@ const SearchPage = (props: any) => {
   return (
     <BasicPage
       header={
-        <div style={styles.searchContainer}>
-          <SearchBar value={searchByKeyword} onChange={(e: any) => setSearchByKeyword(e.currentTarget.value)} link/>
-        </div>
+        <>
+          <div style={styles.header}>{headerText}</div>
+          <div style={styles.searchContainer}>
+            <SearchBar value={searchByKeyword} onChange={(e: any) => setSearchByKeyword(e.currentTarget.value)} />
+          </div>
+        </>
       }
       alarm
       navigation
@@ -123,7 +128,7 @@ const SearchPage = (props: any) => {
       <div style={styles.container}>
         {(!state?.category && !state?.keyword) ?
         <>
-          <div style={styles.categoryText}>{mainText}</div>
+          {/* <div style={styles.categoryText}>{headerText}</div> */}
           <div style={styles.category}>
             {sliced && sliced.map((categorySet: any, i1: number) => (
               <div key={`category_${i1}`} style={styles.categoryRow}>

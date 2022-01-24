@@ -5,7 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
-import { SettingPage, LoginPage, RegisterPage, LikePage, DetailPage } from './pages/details';
+import { SettingPage, LoginPage, RegisterPage, LikePage, DetailPage, AddPage } from './pages/details';
 
 import { FirebaseProvider } from './context/FirebaseContext';
 import { AlarmPage } from './pages/details';
@@ -47,6 +47,7 @@ const App = (props: any) => {
           <Route path='/setting' element={<SettingPage {...props} />}/>
           <Route path='/alarm' element={<AlarmPage {...props} />}/>
           <Route path='/like' element={<LikePage {...props} />}/>
+          <Route path='/add' element={<AddPage {...props} />}/>
         </Routes>
         </EnvProvider>
         </FirebaseProvider>

@@ -60,7 +60,7 @@ const SearchBar = (props: any) => {
             size={1}
           />
           {<div onClick={onClick}>
-            <div aria-label="SearchLink" onClick={() => navigate('/search', { state: { keyword: value } })}>
+            <div aria-label="SearchLink" onClick={onClick || (() => navigate('/search', { state: { keyword: value } }))}>
               <FaSearch role='button' style={styles.search} size={iconSize} color={env.fontColor} />
             </div>
           </div>}       

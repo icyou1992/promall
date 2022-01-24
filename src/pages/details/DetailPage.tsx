@@ -1,10 +1,9 @@
 import React from 'react'
-import '../Page.css'
 import { useLocation, useNavigate } from 'react-router';
 import { theme } from '../../constants/Color';
 import { useEnv } from '../../context/EnvContext';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { EmptyPage } from '../util';
+import AnimatedPage from '../util/AnimatedPage';
 
 const ItemDetailPage = (props: any) => {
   const {
@@ -14,13 +13,12 @@ const ItemDetailPage = (props: any) => {
     brandStyle,
     expirationDateStyle,
     rowContentContainerStyle,
-    untilStyle,
     descriptionStyle,
     locationStyle,
   } = props;
   const env = useEnv();
   const navigate = useNavigate();
-  const { key, state }: any = useLocation();
+  const { state }: any = useLocation();
   const { event } = state;
   const margin = 8;
   const padding = 8;
@@ -35,7 +33,7 @@ const ItemDetailPage = (props: any) => {
       fontSize: '1rem',
       fontWeight: 'bold',
       color: env.fontColor,
-      backgroundColor: theme,
+      backgroundColor: 'transparent',
       // borderBottom: '1px solid #222',
       letterSpacing: '0.1rem',
       overflow: 'hidden',
@@ -83,28 +81,26 @@ const ItemDetailPage = (props: any) => {
   } as const 
 
   return (
-    <TransitionGroup>
-    <CSSTransition key={key} classNames="slide" timeout={2000}>
-      <EmptyPage>
-        <div style={styles.container} onClick={() => navigate(-1)}>
-          <div onClick={onClick}>
-          <div style={{ ...styles.title, ...titleStyle }}>{event.title}</div>
-          <div style={{ ...styles.body, ...bodyStyle }}>
-            {(event.brand !== 'none' || !event.brand) && <div style={{ ...styles.brand, ...brandStyle }}>{event.brand}</div>}
-            <div style={{ ...styles.rowContentContainer, ...rowContentContainerStyle}}>
-              <div style={{ ...styles.location, ...locationStyle }}>{event.location}</div>
-              <div style={{ ...styles.expirationDate, ...expirationDateStyle }}>{event.expirationDate}{' 까지'}</div>
-            </div>
-            {event.description && <div style={{ ...styles.description, ...descriptionStyle}}>{event.description}</div>}
-            {(event.images).map((image: string, index: number) => (
-              <img key={index} style={styles.imageStyle} src={image} alt="can't find" width="100%"/>
-            ))}
+    <AnimatedPage>
+    <EmptyPage>
+      <div style={styles.container} onClick={() => navigate(-1)}>
+        <div onClick={onClick}>
+        <div style={{ ...styles.title, ...titleStyle }}>{event.title}</div>
+        <div style={{ ...styles.body, ...bodyStyle }}>
+          {(event.brand !== 'none' || !event.brand) && <div style={{ ...styles.brand, ...brandStyle }}>{event.brand}</div>}
+          <div style={{ ...styles.rowContentContainer, ...rowContentContainerStyle}}>
+            <div style={{ ...styles.location, ...locationStyle }}>{event.location}</div>
+            <div style={{ ...styles.expirationDate, ...expirationDateStyle }}>{event.expirationDate}{' 까지'}</div>
           </div>
-          </div>
+          {event.description && <div style={{ ...styles.description, ...descriptionStyle}}>{event.description}</div>}
+          {(event.images).map((image: string, index: number) => (
+            <img key={index} style={styles.imageStyle} src={image} alt="can't find" width="100%"/>
+          ))}
         </div>
-      </EmptyPage>
-    </CSSTransition>
-    </TransitionGroup>
+        </div>
+      </div>
+    </EmptyPage>
+    </AnimatedPage>
   )
 }
 

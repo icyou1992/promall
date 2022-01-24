@@ -69,7 +69,7 @@ const Navigation = (props: any) => {
 
   return (
     <nav role="navigation" style={{ ...styles.navigationContainer, ...navigationStyle }}>
-      <Nav activeKey={"/"}>
+      <Nav activeKey={1}>
         <div style={{ ...styles.navigation, }}>
           {tabs.map((tab: any, index: number) => (
             <div 

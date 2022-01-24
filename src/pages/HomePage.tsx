@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { useFirebase } from '../context/FirebaseContext'
 import { useEnv } from '../context/EnvContext'
-import { hotpink, theme } from '../constants/Color'
+import { theme } from '../constants/Color'
 import { Accordion, Map, MapMarker, SearchBar } from '../components'
 import { categoryList } from '../constants/Category'
 import { BasicPage } from './util'
 import { getPromotionAPI } from '../util/api'
 import { IsLDevice, IsMDevice } from '../util/responsive'
-import { IoChevronForwardOutline } from 'react-icons/io5'
+import { IoChevronForwardOutline, IoAddCircleOutline } from 'react-icons/io5'
 
 
 const HomePage = (props: any) => {
@@ -27,7 +27,7 @@ const HomePage = (props: any) => {
   const padding = 8;
   const borderRadius = 8;
   const iconSize = 24;
-  const mainText = '주변 할인 행사';
+  const headerText = '주변 할인 행사';
   const until = '까지';
   
   const styles = {
@@ -40,26 +40,32 @@ const HomePage = (props: any) => {
     },
     map: {
       width: '100%',
-      height: '80vh',
+      height: '90vh',
     },
     container: {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: theme,
+      backgroundColor: 'transparent',
       marginTop: -margin*3,
       padding: padding + 4,
       borderRadius: borderRadius,
       fontFamily: 'one_main_light',
     },
-    mapTitle: {
+    header: {
+      fontSize: '1rem',
+      fontFamily: 'one_main_light',
+      fontWeight: 'bold',
+      letterSpacing: '0.2rem',
+      color: env.fontColor,
+      marginLeft: margin,
+      marginRight: margin,
+    },
+    searchContainer: {
       display: 'flex',
       flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginTop: -margin/2,
-      fontWeight: 'bold',
+      marginLeft: margin*2,
+      marginRight: margin*2,
     },
     mapText: {
       marginBottom: margin,
@@ -68,31 +74,6 @@ const HomePage = (props: any) => {
       letterSpacing: '0.2rem',
       marginRight: margin*4,
       color: env.fontColor,
-    },
-    mapSearch: {
-      display: 'flex', 
-      flex: 1,
-      flexDirection: 'row',
-      alignItems: 'center', 
-      backgroundColor: 'transparent',
-      paddingBottom: padding/2,
-    },
-    inputMap: {
-      display: 'flex', 
-      flex: 1,
-      backgroundColor: 'transparent',
-      fontSize: '0.8rem', 
-      border: '0px', 
-      outline: 'none',
-    },
-    titleContainer: {
-      display: 'flex',
-      width: '100%',
-      backgroundColor: theme,
-      padding: padding,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
     },
     briefContainer: {
       display: 'flex',
@@ -114,27 +95,6 @@ const HomePage = (props: any) => {
 
     },
     briefDate: { fontSize: '0.7rem' },
-    title: {
-      width: '100%',
-      fontSize: '0.8rem',
-      fontWeight: 'bold',
-      letterSpacing: '0.1rem',
-      overflow: 'hidden',
-      textOverflow: 'ellipsis',
-    },
-    body: {
-      display: 'flex',
-      flex: 1,
-      flexDirection: 'column',
-      width: '100%',
-      justifyContent: 'center',
-      alignItems: 'center',
-      padding: `${padding/2}px ${padding}px ${padding/2}px ${padding}px`,
-    },
-    brand: {
-      fontSize: '0.8rem',
-      alignSelf: 'flex-start',
-    },
     rowContainer: {
       display: 'flex',
       width: '100%',
@@ -145,29 +105,6 @@ const HomePage = (props: any) => {
       fontSize: '0.8rem',
       alignSelf: 'flex-start',
     },
-    until: {
-      fontSize: '0.8rem',
-      alignSelf: 'flex-end',
-    },
-    description: {
-      flex: 1,
-      flexDirection: 'column',
-      backgroundColor: 'transparent',
-      fontSize: '1rem',
-      width: '100%',
-      border: 0,
-    },
-    location: {
-      fontSize: '0.8rem',
-      width: '100%',
-    },
-    likeContainer: {
-      display: 'flex',
-      flexDirection: 'row',
-      alignItems: 'center',
-      fontSize: '0.8rem',
-      color: hotpink,
-    },
     more: {
       display: 'flex',
       flex: 1,
@@ -175,6 +112,12 @@ const HomePage = (props: any) => {
       alignItems: 'center',
       backgroundColor: env.bgColor,
       paddingRight: padding/2,
+    },
+    plus: {
+      position: 'fixed',
+      right: margin*4,
+      bottom: margin*8,
+      zIndex: 10,
     }
   } as const
 
@@ -192,7 +135,7 @@ const HomePage = (props: any) => {
                   <div style={styles.briefDate}>{event.expirationDate} {until}</div>
                 </div>
               </div>
-              <div style={styles.more}>
+              <div style={styles.more} onClick={() => navigate('/')}>
                 <IoChevronForwardOutline size={iconSize} color={theme} />
               </div>
             </div>
@@ -266,7 +209,22 @@ const HomePage = (props: any) => {
 
   return (
     <BasicPage 
-      logo 
+      header={
+        IsLDevice() ? 
+        false 
+        :
+        <>
+          <div style={styles.header} onClick={() => env.setMode(!env.mode)}>{headerText}</div>
+          <div style={styles.searchContainer}>
+            <SearchBar 
+              value={input}
+              onChange={(e: any) => { setInput(e.currentTarget.value); }}
+              onClick={() => setSearchByKeywordInMap(input)}
+            />
+          </div>
+        </> 
+      }
+      logo={IsLDevice() ? true : false}
       onLogoClick={() => env.setMode(!env.mode)}
       search={IsLDevice() ? true : false}
       profile={IsLDevice() ? true : false} 
@@ -279,24 +237,15 @@ const HomePage = (props: any) => {
         </div>
       :
         <div style={styles.container}>
-          <div style={styles.mapTitle}>
-            <div style={styles.mapText}>{mainText}</div>
-            <SearchBar 
-              contentContainerStyle={styles.mapSearch}
-              inputStyle={styles.inputMap}
-              backgroundColor={'transparent'} 
-              height={'auto'} 
-              value={input}
-              onChange={(e: any) => { setInput(e.currentTarget.value); }}
-              onClick={() => setSearchByKeywordInMap(input)}
-            />
-          </div>
           <div id='map' style={styles.map}>
             <Map onCreate={setMap} userLocation={loc} events={events} mapLevel={mapLevel}>
               {events.map((event: any, index: number) => {
                 return setEvent(event, index)                 
               })}
             </Map>
+          </div>
+          <div style={styles.plus} onClick={() => navigate('/add')}>
+            <IoAddCircleOutline color={theme} size={iconSize*2}/>
           </div>
         </div>
       }

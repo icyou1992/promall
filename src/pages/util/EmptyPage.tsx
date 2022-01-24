@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router'
 import { useEnv } from '../../context/EnvContext';
-import { Link } from 'react-router-dom';
 import { MDevice } from '../../util/responsive';
 import { Navigation } from '../../components';
 import { IoChevronBackOutline } from 'react-icons/io5'
@@ -10,7 +10,6 @@ const EmptyPage = (props: any) => {
   const {
     back,
     backSize = 32,
-    backLink = '/',
     header,
     headerStyle,
     children,
@@ -18,6 +17,7 @@ const EmptyPage = (props: any) => {
   } = props;
   // const margin = 8;
   const env = useEnv();
+  const navigate = useNavigate();
   const padding = 8;
 
   const styles = {
@@ -41,7 +41,11 @@ const EmptyPage = (props: any) => {
   return (
     <div style={styles.container}>
       {(back || header) && <div style={{ ...styles.header, ...headerStyle }}>
-        {back && <Link to={backLink}><IoChevronBackOutline size={backSize} color={env.fontColor}/></Link>}
+        {back && 
+          <div onClick={() => navigate(-1)}>
+            <IoChevronBackOutline size={backSize} color={env.fontColor}/>
+          </div>
+        }
         {header}
       </div>}
       {children}

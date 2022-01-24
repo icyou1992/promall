@@ -4,7 +4,7 @@ const Text = (props: any) => {
   const {
     value,
     color,
-    textStyle,
+    style,
   } = props;
 
   const styles = {
@@ -14,7 +14,7 @@ const Text = (props: any) => {
     }
   }
   return (
-    <div style={{ ...styles.text, ...textStyle }}>{value}</div>
+    <div style={{ ...styles.text, ...style }}>{value}</div>
   )
 }
 

@@ -94,7 +94,7 @@ const LoginPage = (props: any) => {
       display: 'flex',
       flex: 1,
       flexDirection: 'column',
-      backgroundColor: theme,
+      backgroundColor: 'transparent',
       padding: padding*4,
       borderRadius: borderRadius,
       color: env.fontColor,    
@@ -195,7 +195,7 @@ const LoginPage = (props: any) => {
         <br/>
         <div style={{...styles.rowContentContainer, justifyContent: 'space-between', marginBottom: margin*6 }}>
           <div style={styles.register} onClick={() => navigate('/register')}>{registerStatement}</div>
-          <Button buttonStyle={styles.button} color={env.fontColor} bgColor={env.bgColor} onClick={() => { 
+          <Button buttonStyle={styles.button} color={env.fontColor} bgColor={theme} onClick={() => { 
             signInAPI(firebase.auth, email, password).catch((err) => {
               // setErr(err.toString());
               // console.log(err.toString());

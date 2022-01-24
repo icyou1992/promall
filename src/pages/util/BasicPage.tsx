@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom'
 // import { FiBell, FiUser, FiSearch } from 'react-icons/fi'
 import { FaBell, FaSearch, FaUser } from 'react-icons/fa'
 import { IoSettingsSharp } from 'react-icons/io5'
-import { theme } from '../../constants/Color'
 
 const BasicPage = (props: any) => {
   const {
@@ -34,6 +33,7 @@ const BasicPage = (props: any) => {
       width: '100vw',
       minHeight: '100vh',
       backgroundColor: env.bgColor,
+      // margin: margin,
     },
     header: {
       display: 'flex',
@@ -49,7 +49,6 @@ const BasicPage = (props: any) => {
     },
     shortcutContainer: { 
       display: 'flex',
-      flex: 1,
       alignItems: 'center',
       justifyContent: 'flex-end',
       backgroundColor: 'transparent',
@@ -70,16 +69,16 @@ const BasicPage = (props: any) => {
           {header}   
           <div style={styles.shortcutContainer}>
             {search && <div aria-label="Search" onClick={() => navigate('/search')}>
-              <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+              <FaSearch style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
             </div>}
             {alarm && <div aria-label="Alarm" onClick={() => navigate('/alarm')}>
-              <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+              <FaBell style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
             </div>}
             {profile && <div aria-label="Profile" onClick={() => navigate('/profile')}>
-              <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+              <FaUser style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
             </div>}
             {setting && <div aria-label="Setting" onClick={() => navigate('/setting')}>
-              <IoSettingsSharp style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={theme} />
+              <IoSettingsSharp style={{ ...styles.iconStyle, ...iconStyle }} size={iconSize} color={env.fontColor} />
             </div>}
           </div>               
         </div>  

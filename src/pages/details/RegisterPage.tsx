@@ -26,7 +26,7 @@ const RegisterPage = (props: any) => {
   const iconSize = 32;
 
   const styles = {
-    back: {},
+    header: {},
     title: {
       fontWeight: 'bold',
     },
@@ -99,8 +99,7 @@ const RegisterPage = (props: any) => {
     <EmptyPage
       back
       backSize={iconSize}
-      backLink={'/login'}
-      headerStyle={styles.back}
+      headerStyle={styles.header}
       header={
         <>
           <Text textStyle={styles.title} value={'회원가입하기'}/>
