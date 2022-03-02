@@ -5,6 +5,7 @@ const Input = (props: any) => {
   const {
     header,
     value,
+    multiple,
     onChange,
     placeholder,
     type,
@@ -43,7 +44,7 @@ const Input = (props: any) => {
     <div>
       <div style={{ ...styles.header, ...headerStyle }}>{header}</div>
       <div style={{ ...styles.inputContainer, ...inputContainerStyle }}>
-        <input type={type} style={{ ...styles.input, ...inputStyle }} value={value} onChange={onChange} placeholder={placeholder}/>
+        <input multiple={multiple} type={type} style={{ ...styles.input, ...inputStyle }} value={value} onChange={onChange} placeholder={placeholder}/>
       </div>
     </div>
   )
