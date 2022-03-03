@@ -126,7 +126,11 @@ const AddPage = () => {
         <Input type={'text'} inputContainerStyle={styles.input} header={'발효일자'} headerStyle={styles.header} value={effectiveDate} onChange={(e: any) => { setEffectiveDate(e.currentTarget.value) }} placeholder={effectiveDatePlaceholder} />
         <Input type={'text'} inputContainerStyle={styles.input} header={'만료일자'} headerStyle={styles.header} value={expirationDate} onChange={(e: any) => { setExpirationDate(e.currentTarget.value) }} placeholder={expirationDatePlaceholder} />
         
-        <Input type={'file'} multiple name='files[]' inputContainerStyle={styles.input} accept={"image/*;capture=camera"} header={'이미지'} headerStyle={styles.header} value={image} onChange={(e: any) => { setImage(e.currentTarget.value) }} placeholder={imagePlaceholder} />
+        <Input id={'file'} type={'file'} multiple name='files[]' inputStyle={{ display: 'none' }} accept={"image/*;capture=camera"} header={'이미지'} headerStyle={styles.header} value={image} onChange={(e: any) => { setImage(e.currentTarget.value) }} placeholder={imagePlaceholder} 
+          substitute={
+            <Button color={env.bgColor} children={'Upload'} /> 
+          }
+        />
 
         {/* <Input type={'password'} header={'비밀번호'} value={password} onChange={(e: any) => { setPassword(e.currentTarget.value) }} placeholder={pwPlaceholder}/>
         <Input type={'password'} header={'비밀번호 확인'} value={passwordCheck} onChange={(e: any) => { setPasswordCheck(e.currentTarget.value) }} placeholder={pwcPlaceholder}/>
